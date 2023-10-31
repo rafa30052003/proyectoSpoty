@@ -74,4 +74,17 @@ public class Song {
     public void setArchive_song(String archive_song) {
         this.archive_song = archive_song;
     }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", name_song='" + name_song + '\'' +
+                ", gender='" + gender + '\'' +
+                ", N_reproduction=" + N_reproduction +
+                ", duration='" + duration + '\'' +
+                ", Name_disk='" + Name_disk + '\'' +
+                ", archive_song='" + archive_song + '\'' +
+                '}';
+    }
 }
