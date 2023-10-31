@@ -1,6 +1,6 @@
 package org.example.model.dto;
 
-public class Sing {
+public class Song {
     private int id;
     private String name_song;
     private String gender;
@@ -9,7 +9,7 @@ public class Sing {
     private String Name_disk;
     private String archive_song;
 
-    public Sing(int id, String name_song, String gender, int n_reproduction, String duration, String name_disk, String archive_song) {
+    public Song(int id, String name_song, String gender, int n_reproduction, String duration, String name_disk, String archive_song) {
         this.id = id;
         this.name_song = name_song;
         this.gender = gender;
