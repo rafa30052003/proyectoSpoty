@@ -100,5 +100,17 @@ public class Song {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", name_song='" + name_song + '\'' +
+                ", gender='" + gender + '\'' +
+                ", N_reproduction=" + N_reproduction +
+                ", duration='" + duration + '\'' +
+                ", Name_disk='" + Name_disk + '\'' +
+                ", archive_song='" + archive_song + '\'' +
+                '}';
+
     }
 }
