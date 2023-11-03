@@ -1,6 +1,6 @@
 package org.example.model.dto;
 
-public enum Nacionality {
+public enum Nationality {
     AFGANO,
     ALBANES,
     ARGELINO,
