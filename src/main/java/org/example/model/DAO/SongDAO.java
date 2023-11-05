@@ -1,8 +1,5 @@
 package org.example.model.DAO;
 
-import org.example.conexion.Connect;
-import org.example.interfaceDAO.iDAO;
-
 import org.example.model.dto.Album;
 
 import org.example.model.dto.Artist;
@@ -152,3 +149,4 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
         }
     }
 }
+
