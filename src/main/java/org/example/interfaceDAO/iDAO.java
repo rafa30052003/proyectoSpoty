@@ -9,8 +9,6 @@ public interface iDAO<T,K> {
     T findById (K id) throws SQLException;
     T save(T entity) throws SQLException ;
 
-    Artist save(Artist entity) throws SQLException;
-
     void delete(T entity) throws SQLException ;
 
 }
