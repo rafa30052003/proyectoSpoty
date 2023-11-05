@@ -80,4 +80,15 @@ public class Album {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        return "Album{" +
+                "name='" + name + '\'' +
+                ", photo='" + photo + '\'' +
+                ", public_time=" + public_time +
+                ", nRepro=" + nRepro +
+                ", name_artist=" + name_artist +
+                '}';
+    }
 }

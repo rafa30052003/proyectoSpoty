@@ -1,22 +1,36 @@
 package org.example.model.dto;
 
+import java.util.Objects;
+
 public class Song {
     private int id;
     private String name_song;
     private String gender;
-    private int N_reproduction;
+    private int nrepro;
     private String duration;
-    private String Name_disk;
+    private Album album;
     private String archive_song;
 
-    public Song(int id, String name_song, String gender, int n_reproduction, String duration, String name_disk, String archive_song) {
+    public Song(int id, String name_song, String gender, int nrepro, String duration, Album album, String archive_song) {
         this.id = id;
         this.name_song = name_song;
         this.gender = gender;
-        N_reproduction = n_reproduction;
+        this.nrepro = nrepro;
         this.duration = duration;
-        Name_disk = name_disk;
+        this.album = album;
         this.archive_song = archive_song;
+    }
+
+    public Song(String name_song, String gender, int nrepro, String duration, Album album, String archive_song) {
+        this.name_song = name_song;
+        this.gender = gender;
+        this.nrepro = nrepro;
+        this.duration = duration;
+        this.album = album;
+        this.archive_song = archive_song;
+    }
+
+    public Song() {
     }
 
     public int getId() {
@@ -43,12 +57,12 @@ public class Song {
         this.gender = gender;
     }
 
-    public int getN_reproduction() {
-        return N_reproduction;
+    public int getNrepro() {
+        return nrepro;
     }
 
-    public void setN_reproduction(int n_reproduction) {
-        N_reproduction = n_reproduction;
+    public void setNrepro(int nrepro) {
+        this.nrepro = nrepro;
     }
 
     public String getDuration() {
@@ -59,12 +73,12 @@ public class Song {
         this.duration = duration;
     }
 
-    public String getName_disk() {
-        return Name_disk;
+    public Album getAlbum() {
+        return album;
     }
 
-    public void setName_disk(String name_disk) {
-        Name_disk = name_disk;
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
     public String getArchive_song() {
@@ -73,5 +87,30 @@ public class Song {
 
     public void setArchive_song(String archive_song) {
         this.archive_song = archive_song;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Song)) return false;
+        Song song = (Song) o;
+        return id == song.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", name_song='" + name_song + '\'' +
+                ", gender='" + gender + '\'' +
+                ", N_reproduction=" + N_reproduction +
+                ", duration='" + duration + '\'' +
+                ", Name_disk='" + Name_disk + '\'' +
+                ", archive_song='" + archive_song + '\'' +
+                '}';
+
     }
 }
