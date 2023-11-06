@@ -4,15 +4,14 @@ module org.example {
     requires java.sql;
     requires java.xml.bind;
     requires jbcrypt;
+    requires java.xml;
 
+    opens org.example to javafx.fxml;
+    opens org.example.conexion to java.xml.bind; // Corregido el nombre de la carpeta
 
-  opens org.example to javafx.fxml;
-    opens org.example.Conections to java.xml.bind; // Abre el paquete org.example.Conections
     exports org.example;
     exports org.example.model.dto;
-    opens org.example.domain to javafx.fxml;
     exports org.example.controller;
+
     opens org.example.controller to javafx.fxml;
-
-
 }

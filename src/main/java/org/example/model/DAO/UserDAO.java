@@ -71,7 +71,7 @@ public class UserDAO implements iDAO<User,String> {
         return entity;
     }
 
-    @Override
+
     public Artist save(Artist entity) throws SQLException {
         return null;
     }

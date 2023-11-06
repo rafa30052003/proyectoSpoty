@@ -55,13 +55,13 @@ public class ControllerLogin {
             loggedInUserMail = user.getMail();
             loggedInUserPhoto = user.getPhoto();
             loggedInUserPassword= user.getPassword();
-            App.setRoot("prueba");
+            App.setRoot("homeAdmin");
         }  else if (user != null && BCrypt.checkpw(password, user.getPassword()) && userDAO.isAdmin(username)==false) {
             loggedInUserName = user.getName();
             loggedInUserMail = user.getMail();
             loggedInUserPhoto = user.getPhoto();
             loggedInUserPassword= user.getPassword();
-            App.setRoot("prueba3");
+            App.setRoot("homeUser");
         }else {
             // Si no se encontró un usuario con el nombre y contraseña correctos, muestra un mensaje de error
             Alert alert = new Alert(Alert.AlertType.ERROR);
