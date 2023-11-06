@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.controller.AddUser"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="600.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ControllerAddUser">
+    <children>
+        <ImageView fitHeight="732.0" fitWidth="1145.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../../../foto/fondouser.png" />
+            </image></ImageView>
+        <Pane layoutX="348.0" layoutY="78.0" prefHeight="576.0" prefWidth="790.0" style="-fx-border-color: #00FF36; -fx-border-width: 5px;">
+            <children>
+                <Label layoutX="26.0" layoutY="180.0" prefHeight="45.0" prefWidth="498.0" text="Introdice nombre de usuario:" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label layoutX="77.0" layoutY="402.0" prefHeight="45.0" prefWidth="395.0" text="Introduce contraseña:" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label layoutX="98.0" layoutY="326.0" prefHeight="45.0" prefWidth="414.0" text="Sube  foto de perfil:" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label layoutX="26.0" layoutY="252.0" prefHeight="45.0" prefWidth="498.0" text="Introdice correo electronico:" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Line endX="672.0" layoutX="113.0" layoutY="460.0" startX="-107.0" stroke="#00ff36" strokeWidth="5.0" style="-fx-border-color: #00FF36;" />
+                <Line endX="671.0" layoutX="112.0" layoutY="166.0" startX="-104.0" stroke="#00ff36" strokeWidth="5.0" style="-fx-border-color: #00FF36;" />
+                <Line endX="677.0" endY="-9.0" layoutX="108.0" layoutY="248.0" startX="-101.0" startY="-9.0" stroke="#00ff36" strokeWidth="5.0" style="-fx-border-color: #00FF36;" />
+                <Line endX="667.0" layoutX="115.0" layoutY="388.0" startX="-108.0" stroke="#00ff36" strokeWidth="5.0" style="-fx-border-color: #00FF36;" />
+                <Line endX="198.0" endY="309.5" layoutX="338.0" layoutY="148.0" startX="198.0" startY="20.5" stroke="#00ff36" strokeWidth="5.0" style="-fx-border-color: #00FF36;" />
+                <Line endX="500.0" layoutX="284.0" layoutY="316.0" startX="-278.0" stroke="#00ff36" strokeWidth="5.0" style="-fx-border-color: #00FF36;" />
+                <TextField fx:id="textName" layoutX="551.0" layoutY="180.0" prefHeight="45.0" prefWidth="224.0" />
+                <TextField fx:id="textmail" layoutX="551.0" layoutY="258.0" prefHeight="45.0" prefWidth="224.0" />
+                <Button fx:id="buttonImg" layoutX="559.0" layoutY="334.0" mnemonicParsing="false" onAction="#chooseImage" prefHeight="37.0" prefWidth="208.0" text="Subir imagen de perfil">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="17.0" />
+                    </font>
+                </Button>
+                <PasswordField fx:id="password" layoutX="551.0" layoutY="402.0" prefHeight="45.0" prefWidth="224.0" />
+                <ImageView fitHeight="150.0" fitWidth="756.0" layoutX="348.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../foto/logouser.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="buttonadd" layoutX="631.0" layoutY="510.0" mnemonicParsing="false" onAction="#addUser" prefHeight="37.0" prefWidth="136.0" text="Registrarme">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="17.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonexit" layoutX="36.0" layoutY="510.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="124.0" text="volver atras">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="17.0" />
+                    </font>
+                </Button>
+                <Polygon fill="#00ff36" layoutX="281.0" layoutY="95.0" points="-17.0, -2.0, 66.0, 18.0, 66.0, -30.0" stroke="#00ff36" strokeType="INSIDE" />
+                <Polygon fill="#00ff36" layoutX="431.0" layoutY="95.0" points="149.0, -6.0, 66.0, 18.0, 66.0, -30.0" stroke="#00ff36" strokeType="INSIDE" />
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>

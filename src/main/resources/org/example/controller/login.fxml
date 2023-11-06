@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.controller.Login"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="834.0" prefWidth="1157.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ControllerLogin">
+    <children>
+        <ImageView fitHeight="834.0" fitWidth="1167.0" layoutX="-8.0" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../../../foto/fonfo.png" />
+            </image>
+        </ImageView>
+        <Pane layoutX="340.0" layoutY="29.0" prefHeight="546.0" prefWidth="472.0" style="-fx-border-color: #00FF36; -fx-border-width: 5px;">
+            <children>
+                <Label layoutX="71.0" layoutY="212.0" prefHeight="36.0" prefWidth="129.0" text=" usuario:" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="30.0" />
+                    </font>
+                </Label>
+                <ImageView fitHeight="193.0" fitWidth="146.0" layoutX="156.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../foto/logouser.png" />
+                    </image>
+                </ImageView>
+                <Label layoutX="43.0" layoutY="267.0" prefHeight="36.0" prefWidth="186.0" text=" contraseña:" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="30.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="textName" layoutX="239.0" layoutY="211.0" prefHeight="37.0" prefWidth="175.0" />
+                <PasswordField fx:id="textPassword" layoutX="239.0" layoutY="266.0" prefHeight="37.0" prefWidth="175.0" />
+                <Button fx:id="buttonUser" layoutX="52.0" layoutY="337.0" mnemonicParsing="false" onAction="#buttonUser" prefHeight="41.0" prefWidth="169.0" text="Registrarme">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="22.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonLogin" layoutX="262.0" layoutY="337.0" mnemonicParsing="false" onAction="#buttonLogin" prefHeight="41.0" prefWidth="129.0" text="login">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="22.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>

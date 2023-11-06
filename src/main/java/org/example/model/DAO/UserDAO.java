@@ -2,6 +2,7 @@ package org.example.model.DAO;
 
 import org.example.conexion.Connect;
 import org.example.interfaceDAO.iDAO;
+import org.example.model.dto.Artist;
 import org.example.model.dto.User;
 
 import java.sql.Connection;
@@ -13,7 +14,7 @@ import java.util.List;
 public class UserDAO implements iDAO<User,String> {
     private final static String FINDALL = "SELECT * from user";
     private final static String FINDBYNAME_USER = "SELECT name,mail,photo,password from user WHERE name=?";
-    private final static String FINDBYNAME_ADMIN= "SELECT name,mail,photo,password from admin WHERE name=?";
+    private final static String FINDBYNAME_ADMIN= "SELECT name from admin WHERE name=?";
     private final static String FINDBYNAME_pass_USER = "SELECT name,password from user WHERE name=? AND password=?";
     private final static String FINDBYNAME_pass_ADMIN = "SELECT name,password  from admin WHERE name=? AND password=?";
     private final static String INSERT = "INSERT INTO User (name,mail,photo,password) VALUES (?,?,?,?)";
@@ -70,7 +71,10 @@ public class UserDAO implements iDAO<User,String> {
         return entity;
     }
 
-
+    @Override
+    public Artist save(Artist entity) throws SQLException {
+        return null;
+    }
 
 
     public User update(User entity) throws SQLException {
@@ -151,6 +155,18 @@ public class UserDAO implements iDAO<User,String> {
             pst.setString(1, nameUser);
             pst.setInt(2, idList);
             pst.executeUpdate();
+        }
+    }
+    public boolean isAdmin(String name) throws SQLException {
+        // Consulta para buscar un usuario en la tabla admin
+
+
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYNAME_ADMIN)) {
+            pst.setString(1, name);
+            ResultSet resultSet = pst.executeQuery();
+
+            // Si resultSet tiene al menos una fila, significa que el usuario existe en la tabla admin
+            return resultSet.next();
         }
     }
 }
