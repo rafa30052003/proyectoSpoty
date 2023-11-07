@@ -12,7 +12,7 @@ import org.example.model.dto.List;
 import javafx.collections.ObservableList;
 
 public class ListDAO {
-    private static final String bd = "eventos_programacion";
+    private static final String bd = "spotifyproject";
     private static final String url = "jdbc:mysql://localhost:3306/";
     private static final String login = "root";
     private static final String password = "";
@@ -55,7 +55,7 @@ public class ListDAO {
         conectar();
         ObservableList<List> obs = FXCollections.observableArrayList();
         Statement stat = c.createStatement();
-        ResultSet rs = stat.executeQuery("SELECT name_list,name_user,descripcion,id from Admin");
+        ResultSet rs = stat.executeQuery("SELECT name_list,name_user,descripcion,id from LIST");
 
         while(rs.next()) {
             new List();
