@@ -49,7 +49,12 @@
                     <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font></Button>
-                <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="Opciones de subscripcion" textFill="WHITE">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="193.0" style="-fx-background-color: #020113;" text="ver todas las canciones" textFill="WHITE">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="14.0" />
+               </font>
+            </Button>
+                <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="Ordenar canciones" textFill="WHITE">
                     <items>
                         <MenuItem mnemonicParsing="false" text="subscribirme" />
                         <MenuItem mnemonicParsing="false" text="darse de baja" />
@@ -171,39 +176,38 @@
     <center>
         <AnchorPane prefHeight="447.0" prefWidth="781.0" style="-fx-background-color: #020113;" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="tableAlbun" layoutX="14.0" prefHeight="398.0" prefWidth="757.0" style="-fx-background-color: #020113;">
+                <TableView fx:id="tableSong" layoutX="14.0" prefHeight="398.0" prefWidth="757.0">
                     <columns>
-                        <TableColumn prefWidth="47.20001149177551" text="id" />
-                        <TableColumn prefWidth="117.59994888305664" text="nombre" />
-                        <TableColumn prefWidth="73.5999755859375" text="duracion" />
-                        <TableColumn prefWidth="123.19996643066406" text="genero" />
-                        <TableColumn prefWidth="182.4000244140625" text="nombre del disco" />
-                        <TableColumn prefWidth="73.5999755859375" text="cancion" />
-                        <TableColumn prefWidth="151.20001220703125" text="n_reproduciones" />
+                        <TableColumn fx:id="columnnSong_Id" prefWidth="47.20001149177551" text="id" />
+                        <TableColumn fx:id="columnnSong_Name" prefWidth="117.59994888305664" text="nombre" />
+                        <TableColumn fx:id="columnnSong_Duration" prefWidth="73.5999755859375" text="duracion" />
+                        <TableColumn fx:id="columnnSong_Gender" prefWidth="123.19996643066406" text="genero" />
+                        <TableColumn fx:id="columnnSong_Name_Disk_Song" prefWidth="182.4000244140625" text="nombre del disco" />
+                        <TableColumn fx:id="columnnSong_N_repro" prefWidth="151.20001220703125" text="n_reproduciones" />
                     </columns>
                 </TableView>
-                <TableView fx:id="tableSong" layoutX="13.0" layoutY="1.0" prefHeight="398.0" prefWidth="760.0">
+                <TableView fx:id="tableAlbun" layoutX="13.0" layoutY="1.0" prefHeight="398.0" prefWidth="760.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="nombre" />
-                        <TableColumn prefWidth="144.00003051757812" text="fecha de publicacion" />
-                        <TableColumn prefWidth="144.00003051757812" text="N_reprocuciones" />
-                        <TableColumn prefWidth="144.00003051757812" text="nombre de el artista" />
-                        <TableColumn prefWidth="257.60003662109375" text="foto" />
+                        <TableColumn fx:id="columnnName_Albun" prefWidth="75.0" text="nombre" />
+                        <TableColumn fx:id="columnn_Publication_dateAlbun" prefWidth="144.00003051757812" text="fecha de publicacion" />
+                        <TableColumn fx:id="columnn_N_reproduction" prefWidth="144.00003051757812" text="N_reproduciones" />
+                        <TableColumn fx:id="columnn_Albun_NameArtistAlbun" prefWidth="144.00003051757812" text="nombre de el artista" />
+                        <TableColumn fx:id="columnn_Photo_Albun" prefWidth="257.60003662109375" text="foto" />
                     </columns>
                 </TableView>
-                <Button fx:id="buttonAlbun" layoutX="101.0" layoutY="398.0" mnemonicParsing="false" onAction="#activeTablaAlbun" prefHeight="50.0" prefWidth="93.0" style="-fx-background-color: #020113;" text="ver albun" textFill="WHITE">
+                <Button fx:id="buttonAlbun" layoutX="95.0" layoutY="406.0" mnemonicParsing="false" onAction="#activeTablaAlbun" prefHeight="50.0" prefWidth="217.0" style="-fx-background-color: #020113;" text="ver canciones de el albun" textFill="WHITE">
                     <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="buttonSong" layoutX="520.0" layoutY="398.0" mnemonicParsing="false" onAction="#activeTablaSong" prefHeight="50.0" prefWidth="202.0" style="-fx-background-color: #020113;" text="ver canciones de el albun" textFill="WHITE">
+                <Button fx:id="buttonSong" layoutX="558.0" layoutY="406.0" mnemonicParsing="false" onAction="#activeTablaSong" prefHeight="50.0" prefWidth="124.0" style="-fx-background-color: #020113;" text="ver albuns" textFill="WHITE">
                     <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>
                 </Button>
                 <AnchorPane fx:id="panelModify" layoutX="11.0" prefHeight="400.0" prefWidth="722.0">
                     <children>
-                        <ImageView fx:id="imgUser1" fitHeight="399.0" fitWidth="770.0" pickOnBounds="true" preserveRatio="false" style="-fx-border-color: #22ff00;">
+                        <ImageView fx:id="imgUser1" fitHeight="399.0" fitWidth="770.0" layoutY="1.0" pickOnBounds="true" preserveRatio="false" style="-fx-border-color: #22ff00;">
                             <image>
                                 <Image url="@../../../foto/fondouser.png" />
                             </image>

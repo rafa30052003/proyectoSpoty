@@ -18,10 +18,11 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
     /*
      * QUERY
      */
-    private final static String FINDALL ="SELECT id, name_song, gender, nrepro, duration, name_disk,archive_song from song";
-    private final static String FINBYID ="SELECT name_song, gender, nrepro, duration, name_disk,archive_song  from song WHERE id  =?";
-    private final static String INSERT ="INSERT INTO song (id, name_song, gender, nrepro, duration, name_disk,archive_song) VALUES (NULL,?,?,?,?,?,?)";
-    private final static String UPDATE ="UPDATE name_song = ?, gender = ?, nrepro = ?, duration = ?, name_disk,archive_song = ? WHERE id=?";
+    private final static String FINDALL ="SELECT id, name_song, gender, N_reproduction, duration, name_disk, archive_song, name_disk FROM song";
+
+    private final static String FINBYID ="SELECT name_song, gender, N_reproduction, duration, name_disk,archive_song  from song WHERE id  =?";
+    private final static String INSERT ="INSERT INTO song (id, name_song, gender,  N_reproduction, duration, name_disk,archive_song) VALUES (NULL,?,?,?,?,?,?)";
+    private final static String UPDATE ="UPDATE name_song = ?, gender = ?, N_reproduction = ?, duration = ?, name_disk,archive_song = ? WHERE id=?";
     private final static String DELETE ="DELETE FROM song WHERE id=?";
 
     /**
@@ -50,34 +51,37 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
 
     @Override
     public List<Song> findAll() throws SQLException {
-        List <Song> result = new ArrayList<>();
-        try(PreparedStatement pst=this.conn.prepareStatement(FINDALL)){
-            try(ResultSet res = pst.executeQuery()){
-                while(res.next()) {
+        List<Song> result = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
                     Song s = new Song();
                     s.setId(res.getInt("id"));
                     s.setName_song(res.getString("name_song"));
                     s.setGender(res.getString("gender"));
-                    s.setNrepro(res.getInt("nrepo"));
+                    s.setNrepro(res.getInt("N_reproduction"));  // Corregido el nombre de la columna
                     s.setDuration(res.getString("duration"));
-                    AlbumDAO adao = new AlbumDAO(this.conn);
-                    Album a = adao.findById(res.getString("name"));
-                    s.setAlbum(a);
                     s.setArchive_song(res.getString("archive_song"));
 
+                    // En la estructura de la tabla proporcionada, parece que no hay una columna "name".
+                    // Si estás buscando el nombre del disco al que pertenece la canción, debes ajustar tu consulta SQL.
+                    // Además, asegúrate de que estás obteniendo el nombre del disco de la manera adecuada.
 
+
+                    String nameDisk = res.getString("name_disk");
+                    AlbumDAO adao = new AlbumDAO(this.conn);
+                    Album a = adao.findByName(nameDisk); // Asumiendo que existe un método "findByName" en tu clase AlbumDAO.
+                    s.setAlbum(a);
 
                     result.add(s);
                 }
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return result;
-
-
     }
+
 
     @Override
     public Song findById(Integer id) throws SQLException {
@@ -89,10 +93,10 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
                     result = new Song();
                     result.setName_song(res.getString("name_song"));
                     result.setGender(res.getString("gender"));
-                    result.setNrepro(res.getInt("nrepo"));
+                    result.setNrepro(res.getInt("N_reproduction"));
                     result.setDuration(res.getString("duration"));
                     AlbumDAO adao = new AlbumDAO(this.conn);
-                    Album a = adao.findById(res.getString("name"));
+                    Album a = adao.findById(res.getString("name_disk"));
                     result.setAlbum(a);
                     result.setArchive_song(res.getString("archive_song"));
 

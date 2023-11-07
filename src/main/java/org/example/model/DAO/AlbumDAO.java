@@ -18,11 +18,11 @@ public class AlbumDAO implements iDAO <Album,Object> {
 
     private final static String DELETE ="DELETE from album WHERE name=?";
 
-    private final static String FINDBYNAME="SELECT * from album WHERE name=?";
+    private final static String FINDBYNAME="SELECT name,photo,publication_date,n_reproduction,name_artist from album WHERE name=?";
 
     private final static String UPDATE="UPDATE album SET name=? WHERE name=?";
 
-    private final static String FINDALL="SELECT * FROM album";
+    private final static String FINDALL="SELECT name,photo,publication_date,n_reproduction,name_artist FROM album";
 
     private Connection conn;
     public AlbumDAO(Connection conn) {
@@ -42,8 +42,7 @@ public class AlbumDAO implements iDAO <Album,Object> {
                     album.setName(rs.getString("name"));
                     album.setPhoto(rs.getString("photo"));
                     album.setPublic_time(rs.getDate("publication_date"));
-                    album.setnRepro(rs.getInt("n_reproduction"));
-
+                    album.setNrepro(rs.getInt("n_reproduction"));
                     Artist artist = new Artist();
                     artist.setName(rs.getString("name_artist"));
                     album.setName_artist(artist);
@@ -87,7 +86,7 @@ public class AlbumDAO implements iDAO <Album,Object> {
                 pst.setString(1, entity.getName());
                 pst.setString(2, entity.getPhoto());
                 pst.setDate(3, new java.sql.Date(entity.getPublic_time().getTime()));
-                pst.setInt(4, entity.getnRepro());
+                pst.setInt(4, entity.getNrepro());
                 pst.setString(5, entity.getName_artist().getName());
 
                 pst.executeUpdate();
@@ -105,7 +104,7 @@ public class AlbumDAO implements iDAO <Album,Object> {
                     album.setName(rs.getString("name"));
                     album.setPhoto(rs.getString("photo"));
                     album.setPublic_time(rs.getDate("publication_date"));
-                    album.setnRepro(rs.getInt("n_reproduction"));
+                    album.setNrepro(rs.getInt("n_reproduction"));
 
                     Artist artist = new Artist();
                     artist.setName(rs.getString("name_artist"));
