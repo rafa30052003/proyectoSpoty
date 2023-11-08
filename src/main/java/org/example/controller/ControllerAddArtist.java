@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.App;
+import org.example.model.DAO.ArtistDAO;
 import org.example.model.dto.Artist;
 import org.example.model.dto.Nationality;
 
