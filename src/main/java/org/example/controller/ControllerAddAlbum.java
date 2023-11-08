@@ -1,7 +1,6 @@
 package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -10,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.model.DAO.AlbumDAO;
-import org.example.model.DAO.ArtistDAO;
 import org.example.model.dto.Album;
 import org.example.model.dto.Artist;
 import java.io.File;
