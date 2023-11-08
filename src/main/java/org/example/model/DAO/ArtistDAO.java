@@ -21,6 +21,7 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
     private final static String INSERT ="INSERT INTO artist (name, nationality, photo) VALUES (?,?,?)";
     private final static String UPDATE ="UPDATE artist SET  nationality=?, photo=? WHERE name=?";
     private final static String DELETE ="DELETE FROM artist WHERE name=?";
+    private final static String FIND_NAMES ="SELECT name FROM artist";
 
 
     private Connection conn;
@@ -34,9 +35,14 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
         super(nacionality, photo);
         this.conn = conn;
     }
-    public ArtistDAO(){
+   /* public ArtistDAO(){
         Connect.getConnect();
+    }*/
+
+    public ArtistDAO(){
+        this.conn = Connect.getConnect();
     }
+
 
     @Override
     public List<Artist> findAll() throws SQLException {
@@ -120,6 +126,19 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
         }
     }
 
-
+    public List<String> findNames() throws SQLException {
+        List<String> names = new ArrayList<>();
+        try(PreparedStatement pst = this.conn.prepareStatement(FIND_NAMES)) {
+            try(ResultSet res = pst.executeQuery()) {
+                while(res.next()) {
+                    String name = res.getString("name");
+                    names.add(name);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return names;
+    }
 
 }
