@@ -1,32 +1,73 @@
 package org.example.controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.App;
+import org.example.model.DAO.AlbumDAO;
+import org.example.model.DAO.SongDAO;
 import org.example.model.DAO.UserDAO;
+import org.example.model.dto.Album;
+import org.example.model.dto.Song;
 import org.example.model.dto.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public class ControllerUserHome {
+    SongDAO songDAO=new SongDAO();
     @FXML
     private AnchorPane panelModify;
     @FXML
     private AnchorPane panelDelete;
     @FXML
-    private TableView tableSong;
+    private TableView<Song> tableSong;
+
     @FXML
-    private  TableView tableAlbun;
+    private TableColumn<Song, String> columnnSong_Name;
+
+    @FXML
+    private TableColumn<Song, Integer> columnnSong_Id;
+
+    @FXML
+    private TableColumn<Song, String> columnnSong_Duration;
+
+    @FXML
+    private TableColumn<Song, String> columnnSong_Gender;
+
+    @FXML
+    private TableColumn<Song, Integer> columnnSong_N_repro;
+
+    @FXML
+    private TableColumn<Song, String> columnnSong_Name_Disk_Song;
+
+    ///////////////////////////////// los albuns
+    @FXML
+    private TableView<Album> tableAlbun;
+    @FXML
+    private TableColumn<Album, String> columnnName_Albun;
+    @FXML
+    private TableColumn<Album, Date> columnn_Publication_dateAlbun;
+    @FXML
+    private TableColumn<Album, Integer> columnn_N_reproduction;
+    @FXML
+    private TableColumn<Album, String> columnn_Albun_NameArtistAlbun;
+
+    //////////////////////////////// las canciones
     @FXML
     private  TableView tableSongMyList;
     @FXML
@@ -53,6 +94,7 @@ public class ControllerUserHome {
     private Label labelName;
     @FXML
     private ListView ListSong;
+
     @FXML
     private TextField search;
     //modify
@@ -285,7 +327,7 @@ public class ControllerUserHome {
     }
 
 
-    public void initialize() {
+    public void initialize() throws SQLException {
         // Accede a los datos del usuario logueado desde ControllerLogin
         String loggedInUserName = ControllerLogin.getLoggedInUserName();
         String loggedInUserMail = ControllerLogin.getLoggedInUserMail();
@@ -298,7 +340,52 @@ public class ControllerUserHome {
         tableSong.setVisible(false);
         tableAlbun.setVisible(false);
         panelModify.setVisible(false);
+        // Configura las celdas de las columnas para la tabla de canciones
+        columnnSong_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columnnSong_Name.setCellValueFactory(new PropertyValueFactory<>("name_song"));
+        columnnSong_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        columnnSong_N_repro.setCellValueFactory(new PropertyValueFactory<>("nrepro"));
+        columnnSong_Duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        columnnSong_Name_Disk_Song.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAlbum().getName()));
+       /////
 
+        // Configura las celdas de las columnas para la tabla de álbumes
+        columnnName_Albun.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnn_Publication_dateAlbun.setCellValueFactory(new PropertyValueFactory<>("public_time"));
+        columnn_N_reproduction.setCellValueFactory(new PropertyValueFactory<>("nrepro"));
+        columnn_Albun_NameArtistAlbun.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName_artist().getName()));
+
+        // Obtén los datos de álbumes desde la base de datos
+        // Obtén los datos de canciones desde la base de datos
+        try {
+            SongDAO songDAO = new SongDAO();
+            List<Song> songs = songDAO.findAll();
+            ObservableList<Song> songObservableList = FXCollections.observableArrayList(songs);
+
+            // Asigna los datos de álbumes a la tabla
+            tableSong.setItems(songObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Maneja los errores de base de datos
+        }
+
+        try {
+            AlbumDAO albumDAO = new AlbumDAO();
+            List<Album> albums = albumDAO.findAll();
+            ObservableList<Album> albumObservableList = FXCollections.observableArrayList(albums);
+
+            // Asigna los datos de álbumes a la tabla
+            tableAlbun.setItems(albumObservableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Maneja los errores de base de datos
+        }
     }
-
 }
+
+
+
+
+
+
+

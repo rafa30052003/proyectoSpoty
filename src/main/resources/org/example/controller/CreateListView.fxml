@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="344.0" style="-fx-background-color: #004777;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ControllerModList">
+   <children>
+      <Text fill="WHITE" layoutX="105.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva Lista">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <TextField fx:id="NameField" layoutX="105.0" layoutY="109.0" prefHeight="31.0" prefWidth="194.0" />
+      <Text fill="WHITE" layoutX="36.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" />
+      <Text layoutX="29.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fill="WHITE" layoutX="14.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripcion:" />
+      <Button fx:id="Aceptarbtt" layoutX="136.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#Createnewlist" style="-fx-background-color: #ffffff;" text="Aceptar" />
+      <TextArea fx:id="DescriptionField" layoutX="108.0" layoutY="170.0" prefHeight="136.0" prefWidth="187.0" style="-fx-background-color: #ffffff;" />
+   </children>
+</AnchorPane>

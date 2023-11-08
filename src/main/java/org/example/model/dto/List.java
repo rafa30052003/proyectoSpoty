@@ -6,17 +6,16 @@ public class List {
     private int id;
     private String description;
     private String name_list;
-    private String name_user;
+    private User name_user;
 
-    public List(int id, String description, String name_list, String name_user) {
+
+    public List(int id, String description, String name_list, User name_user) {
         this.id = id;
         this.description = description;
         this.name_list = name_list;
         this.name_user = name_user;
     }
-    public List() {
-        this(1, "", "", "");
-    }
+
 
     public int getId() {
         return id;
@@ -42,11 +41,11 @@ public class List {
         this.name_list = name_list;
     }
 
-    public String getName_user() {
+    public User getName_user() {
         return name_user;
     }
 
-    public void setName_user(String name_user) {
+    public void setName_user(User name_user) {
         this.name_user = name_user;
     }
 
@@ -69,7 +68,8 @@ public class List {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", name_list='" + name_list + '\'' +
-                ", name_user='" + name_user + '\'' +
+                ", name_user=" + name_user +
                 '}';
     }
+    public List(){}
 }

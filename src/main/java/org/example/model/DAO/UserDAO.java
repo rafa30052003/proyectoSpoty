@@ -16,7 +16,6 @@ public class UserDAO implements iDAO<User,String> {
     private final static String FINDBYNAME_USER = "SELECT name,mail,photo,password from user WHERE name=?";
     private final static String FINDBYNAME_ADMIN= "SELECT name from admin WHERE name=?";
     private final static String FINDBYNAME_pass_USER = "SELECT name,password from user WHERE name=? AND password=?";
-    private final static String FINDBYNAME_pass_ADMIN = "SELECT name,password  from admin WHERE name=? AND password=?";
     private final static String INSERT = "INSERT INTO User (name,mail,photo,password) VALUES (?,?,?,?)";
     private final static String UPDATE = "UPDATE User SET Name=?, mail=?, photo=?, password=? where name=?";
     private final static String DELETE = "DELETE FROM User WHERE Name = ?";

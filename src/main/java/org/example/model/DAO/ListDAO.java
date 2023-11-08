@@ -12,7 +12,7 @@ import org.example.model.dto.List;
 import javafx.collections.ObservableList;
 
 public class ListDAO {
-    private static final String bd = "eventos_programacion";
+    private static final String bd = "spotifyproject";
     private static final String url = "jdbc:mysql://localhost:3306/";
     private static final String login = "root";
     private static final String password = "";
@@ -44,18 +44,17 @@ public class ListDAO {
     public static void addList(List b) throws SQLException {
         conectar();
         PreparedStatement stat = null;
-        stat = c.prepareStatement("insert into list(name_user,name_list,description,id) values(?,?,?,?)");
+        stat = c.prepareStatement("insert into list(name_user,name_list,description) values(?,?,?)");
         stat.setString(1, b.getName_list());
         stat.setString(2, b.getName_user());
         stat.setString(2, b.getDescription());
-        stat.setInt(3, b.getId());
         stat.executeUpdate();
     }
     public static ObservableList<List> getAllList() throws SQLException {
         conectar();
         ObservableList<List> obs = FXCollections.observableArrayList();
         Statement stat = c.createStatement();
-        ResultSet rs = stat.executeQuery("SELECT name_list,name_user,descripcion,id from Admin");
+        ResultSet rs = stat.executeQuery("SELECT name_list,name_user,descripcion,id from LIST");
 
         while(rs.next()) {
             new List();
@@ -68,6 +67,19 @@ public class ListDAO {
         }
 
         return obs;
+    }
+
+    public static void Modlist(List b) throws SQLException {
+        conectar();
+        PreparedStatement stat = null;
+        stat = c.prepareStatement("UPDATE LIST" +
+                "SET name_list = value(?),\n" +
+                "    description = value(?)\n" +
+                "WHERE id = value(?);");
+        stat.setString(1, b.getName_list());
+        stat.setString(2, b.getDescription());
+        stat.setInt(2, b.getId());
+        stat.executeUpdate();
     }
 
 }

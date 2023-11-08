@@ -7,7 +7,7 @@ public class Album {
     private String name;
     private String photo;
     private Date public_time;
-    private int nRepro;
+    private int nrepro;
     private Artist name_artist;
 
     public Album() {
@@ -17,14 +17,14 @@ public class Album {
         this.name = name;
         this.photo = photo;
         this.public_time = public_time;
-        this.nRepro = nRepro;
+        this.nrepro = nRepro;
         this.name_artist = name_artist;
     }
 
     public Album(String photo, Date public_time, int nRepro, Artist name_artist) {
         this.photo = photo;
         this.public_time = public_time;
-        this.nRepro = nRepro;
+        this.nrepro = nRepro;
         this.name_artist = name_artist;
     }
 
@@ -52,12 +52,12 @@ public class Album {
         this.public_time = public_time;
     }
 
-    public int getnRepro() {
-        return nRepro;
+    public int getNrepro() {
+        return nrepro;
     }
 
-    public void setnRepro(int nRepro) {
-        this.nRepro = nRepro;
+    public void setNrepro(int nrepro) {
+        this.nrepro = nrepro;
     }
 
     public Artist getName_artist() {
@@ -87,7 +87,7 @@ public class Album {
                 "name='" + name + '\'' +
                 ", photo='" + photo + '\'' +
                 ", public_time=" + public_time +
-                ", nRepro=" + nRepro +
+                ", nRepro=" + nrepro +
                 ", name_artist=" + name_artist +
                 '}';
     }
