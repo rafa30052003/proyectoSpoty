@@ -4,6 +4,7 @@ import org.example.conexion.Connect;
 import org.example.interfaceDAO.iDAO;
 import org.example.model.dto.Album;
 import org.example.model.dto.Artist;
+import org.example.model.dto.Song;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -95,13 +96,13 @@ public class AlbumDAO implements iDAO <Album,Object> {
         }
         return entity;
     }
-    public Album findByName(String name) throws SQLException {
-        Album album = null;
+    public List<Album> findByName(String name) throws SQLException {
+        List<Album> albums = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement(FINDBYNAME)) {
             pst.setString(1, name);
             try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    album = new Album();
+                while (rs.next()) {
+                    Album album = new Album();
                     album.setName(rs.getString("name"));
                     album.setPhoto(rs.getString("photo"));
                     album.setPublic_time(rs.getDate("publication_date"));
@@ -110,9 +111,45 @@ public class AlbumDAO implements iDAO <Album,Object> {
                     Artist artist = new Artist();
                     artist.setName(rs.getString("name_artist"));
                     album.setName_artist(artist);
+
+                    albums.add(album);
                 }
             }
         }
-        return album;
+        return albums;
+    }
+
+    public void updateReproductionCount(Album album) throws SQLException {
+        if (album != null) {
+            String updateQuery = "UPDATE album SET n_reproduction = ? WHERE name = ?";
+            try (PreparedStatement pst = this.conn.prepareStatement(updateQuery)) {
+                pst.setInt(1, album.getNrepro());
+                pst.setString(2, album.getName());
+                pst.executeUpdate();
+            }
+        }
+    }
+    public List<Song> findSongsByAlbumName(String albumName) throws SQLException {
+        List<Song> songs = new ArrayList<>();
+        String query = "SELECT song.* FROM song INNER JOIN album ON song.name_disk = album.name WHERE album.name = ?";
+        try (PreparedStatement pst = this.conn.prepareStatement(query)) {
+            pst.setString(1, albumName);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Song song = new Song();
+                    song.setId(rs.getInt("id"));
+                    song.setName_song(rs.getString("name_song"));
+                    song.setGender(rs.getString("gender"));
+
+                    song.setDuration(rs.getString("duration"));
+                    // También necesitarás establecer el álbum al que pertenece esta canción aquí
+                    Album album = new Album();
+                    album.setName(rs.getString("name_disk"));
+                    song.setAlbum(album);
+                    songs.add(song);
+                }
+            }
+        }
+        return songs;
     }
 }
