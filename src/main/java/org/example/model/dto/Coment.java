@@ -4,20 +4,17 @@ import java.util.Objects;
 
 public class Coment {
     private int id;
-    private String name_user;
+    private User name_user;
     private  int id_list;
     private String comment;
 
-    public Coment(int id, String name_user, int id_list, String comment) {
+    public Coment(int id, User name_user, int id_list, String comment) {
         this.id = id;
         this.name_user = name_user;
         this.id_list = id_list;
         this.comment = comment;
     }
 
-    public Coment() {
-        this(1, "", 1,"");
-    }
 
     public int getId() {
         return id;
@@ -27,11 +24,11 @@ public class Coment {
         this.id = id;
     }
 
-    public String getName_user() {
+    public User getName_user() {
         return name_user;
     }
 
-    public void setName_user(String name_user) {
+    public void setName_user(User name_user) {
         this.name_user = name_user;
     }
 
@@ -68,9 +65,11 @@ public class Coment {
     public String toString() {
         return "Coment{" +
                 "id=" + id +
-                ", name_user='" + name_user + '\'' +
+                ", name_user=" + name_user +
                 ", id_list=" + id_list +
                 ", comment='" + comment + '\'' +
                 '}';
+    }
+    public Coment() {
     }
 }
