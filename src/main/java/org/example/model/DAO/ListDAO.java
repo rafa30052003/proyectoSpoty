@@ -10,9 +10,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 
+
+public class ListDAO {
+
 public class ListDAO extends List implements iDAO<List, Integer> {
 
+
     private static Connection con;
+
 
     public ListDAO(int id, String description, String name_list, String name_user, Connection con) {
         super(id, description, name_list, name_user);
@@ -112,4 +117,5 @@ public class ListDAO extends List implements iDAO<List, Integer> {
         stat.setInt(1, id);
         stat.executeUpdate();
     }
+
 }

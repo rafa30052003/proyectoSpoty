@@ -64,7 +64,7 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
                     s.setArchive_song(res.getString("archive_song"));
                     String nameDisk = res.getString("name_disk");
                     AlbumDAO adao = new AlbumDAO(this.conn);
-                    Album a = adao.findByName(nameDisk); // Asumiendo que existe un método "findByName" en tu clase AlbumDAO.
+                    Album a = (Album) adao.findByName(nameDisk); // Asumiendo que existe un método "findByName" en tu clase AlbumDAO.
                     s.setAlbum(a);
 
                     result.add(s);
@@ -146,5 +146,15 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
             pst.executeUpdate();
         }
     }
-}
 
+    public void updateReproductionCount(Song song) throws SQLException {
+        if (song != null) {
+            String updateQuery = "UPDATE song SET N_reproduction = ? WHERE id = ?";
+            try (PreparedStatement pst = this.conn.prepareStatement(updateQuery)) {
+                pst.setInt(1, song.getNrepro());
+                pst.setInt(2, song.getId());
+                pst.executeUpdate();
+            }
+        }
+    }
+}
