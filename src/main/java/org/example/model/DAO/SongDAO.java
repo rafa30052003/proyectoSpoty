@@ -62,12 +62,6 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
                     s.setNrepro(res.getInt("N_reproduction"));  // Corregido el nombre de la columna
                     s.setDuration(res.getString("duration"));
                     s.setArchive_song(res.getString("archive_song"));
-
-                    // En la estructura de la tabla proporcionada, parece que no hay una columna "name".
-                    // Si estás buscando el nombre del disco al que pertenece la canción, debes ajustar tu consulta SQL.
-                    // Además, asegúrate de que estás obteniendo el nombre del disco de la manera adecuada.
-
-
                     String nameDisk = res.getString("name_disk");
                     AlbumDAO adao = new AlbumDAO(this.conn);
                     Album a = adao.findByName(nameDisk); // Asumiendo que existe un método "findByName" en tu clase AlbumDAO.
