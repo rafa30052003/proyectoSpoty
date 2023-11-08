@@ -80,7 +80,7 @@ public class ControllerAddAlbum implements Initializable {
             album.setName(name);
             album.setPhoto(Arrays.toString(photo));
             album.setPublic_time(java.sql.Date.valueOf(date));
-            album.setnRepro(0);
+            album.setNrepro(0);
 
             Artist artistObject = new Artist();
             artistObject.setName(artist);
