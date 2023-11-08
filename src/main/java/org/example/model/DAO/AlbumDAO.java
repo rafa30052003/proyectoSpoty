@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumDAO implements iDAO <Album,Object> {
+public class AlbumDAO implements iDAO <Album,String> {
 
     private final static String INSERT ="INSERT INTO album (name,photo,publication_date,n_reproduction,name_artist) VALUES (?,?,?,?,?)";
 
@@ -24,6 +24,8 @@ public class AlbumDAO implements iDAO <Album,Object> {
     private final static String UPDATE="UPDATE album SET name=? WHERE name=?";
 
     private final static String FINDALL="SELECT name,photo,publication_date,n_reproduction,name_artist FROM album";
+
+    private final static  String FINDBYID = "SELECT name, photo,publication_date,n_reproduction,name_artist  from album WHERE name =?";
 
     private Connection conn;
     public AlbumDAO(Connection conn) {
@@ -54,12 +56,27 @@ public class AlbumDAO implements iDAO <Album,Object> {
         }
         return albums;
     }
-
     @Override
-    public Album findById(Object id) throws SQLException {
-        return null;
-    }
+    public Album findById(String name) throws SQLException {
+        Album result = null;
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYID)) {
+            pst.setString(1, name);
+            try (ResultSet res = pst.executeQuery()) {
+                if (res.next()) {
+                    result = new Album();
+                    result.setName(res.getString("name"));
+                    result.setPhoto(res.getString("photo"));
+                    result.setPublic_time(res.getDate("publication_date"));
+                    result.setNrepro(res.getInt("n_reproduction"));
 
+                    Artist artist = new Artist();
+                    artist.setName(res.getString("name_artist"));
+                    result.setName_artist(artist);
+                }
+            }
+        }
+        return result;
+    }
 
     @Override
     public void delete(Album entity) throws SQLException {

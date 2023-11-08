@@ -15,7 +15,6 @@ import org.example.model.dto.Album;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -62,7 +61,7 @@ public class ControllerAlbum {
         columNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         columFoto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhoto()));
         columFecha.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getPublic_time()).asString());
-        columRepro.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getnRepro()).asObject());
+        columRepro.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNrepro()).asObject());
         columArt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName_artist().getName()));
         try {
             List<Album> albumList = albumDAO.findAll();
