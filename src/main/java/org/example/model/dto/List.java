@@ -6,16 +6,14 @@ public class List {
     private int id;
     private String description;
     private String name_list;
-    private User name_user;
+    private String name_user;
 
-
-    public List(int id, String description, String name_list, User name_user) {
+    public List(int id, String description, String name_list, String name_user) {
         this.id = id;
         this.description = description;
         this.name_list = name_list;
         this.name_user = name_user;
     }
-
 
     public int getId() {
         return id;
@@ -41,25 +39,12 @@ public class List {
         this.name_list = name_list;
     }
 
-    public User getName_user() {
+    public String getName_user() {
         return name_user;
     }
 
-    public void setName_user(User name_user) {
+    public void setName_user(String name_user) {
         this.name_user = name_user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        List list = (List) o;
-        return id == list.id && Objects.equals(description, list.description) && Objects.equals(name_list, list.name_list) && Objects.equals(name_user, list.name_user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, name_list, name_user);
     }
 
     @Override
@@ -68,8 +53,10 @@ public class List {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", name_list='" + name_list + '\'' +
-                ", name_user=" + name_user +
+                ", name_user='" + name_user + '\'' +
                 '}';
     }
-    public List(){}
+
+    public List() {
+    }
 }
