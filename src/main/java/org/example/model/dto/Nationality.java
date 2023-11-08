@@ -97,5 +97,7 @@ public enum Nationality {
     LAOSIANO,
     LETÓN,
     LIBANÉS,
-    LESOTENSE
+    LESOTENSE,
+
+    UNKNOWN
 }

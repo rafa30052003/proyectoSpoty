@@ -11,22 +11,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="834.0" prefWidth="1159.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="834.0" prefWidth="1159.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ControllerAdminHome">
    <left>
       <VBox prefHeight="834.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 0px 8px 0px 0px;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="168.0" fitWidth="296.0" pickOnBounds="true" preserveRatio="true" />
-            <Button mnemonicParsing="false" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 2px 0px 2px 0px;" text="ARTISTA" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
+            <Button mnemonicParsing="false" onMouseClicked="#artist" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 2px 0px 2px 0px;" text="ARTISTA" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 0px 0px 2px 0px;" text="ALBUM" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+            <Button mnemonicParsing="false" onMouseClicked="#album" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 0px 0px 2px 0px;" text="ALBUM" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 0px 0px 2px 0px;" text="CANCION" textFill="WHITE">
+            <Button mnemonicParsing="false" onMouseClicked="#song" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113; -fx-border-color: #1DB954; -fx-border-width: 0px 0px 2px 0px;" text="CANCION" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
@@ -40,26 +40,26 @@
       </VBox>
    </left>
    <center>
-      <AnchorPane prefHeight="834.0" prefWidth="863.0" style="-fx-background-color: #020113;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="ap" prefHeight="834.0" prefWidth="863.0" style="-fx-background-color: #020113;" BorderPane.alignment="CENTER">
          <children>
-            <TableView layoutX="52.0" layoutY="113.0" prefHeight="580.0" prefWidth="742.0" style="-fx-background-color: #020113; -fx-border-color: #020113;">
+            <TableView fx:id="myartists" layoutX="52.0" layoutY="113.0" prefHeight="580.0" prefWidth="742.0">
               <columns>
-                <TableColumn prefWidth="221.33334350585938" style="-fx-background-color: #020113; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="FOTO" />
-                <TableColumn prefWidth="245.86672973632812" style="-fx-background-color: #020113;" text="NOMBRE" />
-                  <TableColumn prefWidth="273.6000122070312" style="-fx-background-color: #020113;" text="NACIONALIDAD" />
+                <TableColumn fx:id="photo" prefWidth="221.33334350585938" text="FOTO" />
+                <TableColumn fx:id="name" prefWidth="245.86672973632812" text="NOMBRE" />
+                  <TableColumn fx:id="nationality" prefWidth="273.6000122070312" text="NACIONALIDAD" />
               </columns>
             </TableView>
-            <Button layoutX="56.0" layoutY="731.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="306.0" style="-fx-background-color: #1DB954;" text="INSERTAR" textFill="#fcfcfc">
+            <Button layoutX="56.0" layoutY="731.0" mnemonicParsing="false" onAction="#switchToAddArtist" prefHeight="42.0" prefWidth="306.0" style="-fx-background-color: #1DB954;" text="INSERTAR" textFill="#fcfcfc">
                <font>
                   <Font name="System Bold Italic" size="16.0" />
                </font>
             </Button>
-            <Button layoutX="448.0" layoutY="731.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="324.0" style="-fx-background-color: #1DB954;" text="ELIMINAR" textFill="#fcfcfc">
+            <Button layoutX="448.0" layoutY="731.0" mnemonicParsing="false" onAction="#deleteArtist" prefHeight="42.0" prefWidth="324.0" style="-fx-background-color: #1DB954;" text="ELIMINAR" textFill="#fcfcfc">
                <font>
                   <Font name="System Bold Italic" size="16.0" />
                </font>
             </Button>
-            <TextField layoutX="503.0" layoutY="39.0" prefHeight="36.0" prefWidth="282.0" />
+            <TextField fx:id="search" layoutX="503.0" layoutY="39.0" prefHeight="36.0" prefWidth="282.0" />
             <Text layoutX="751.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🔎" wrappingWidth="34.66680908203125">
                <font>
                   <Font size="20.0" />

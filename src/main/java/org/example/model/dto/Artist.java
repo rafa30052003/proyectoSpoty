@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Artist {
     private String name;
-    private Nationality nacionality;
+    private Nationality nationality;
     private String photo;
 
     public Artist() {
     }
 
-    public Artist(String name, Nationality nacionality, String photo) {
+    public Artist(String name, Nationality nationality, String photo) {
         this.name = name;
-        this.nacionality = nacionality;
+        this.nationality = nationality;
         this.photo = photo;
     }
 
-    public Artist(Nationality nacionality, String photo) {
-        this.nacionality = nacionality;
+    public Artist(Nationality nationality, String photo) {
+        this.nationality = nationality;
         this.photo = photo;
     }
 
@@ -29,12 +29,12 @@ public class Artist {
         this.name = name;
     }
 
-    public Nationality getNacionality() {
-        return nacionality;
+    public Nationality getNationality() {
+        return nationality;
     }
 
-    public void setNacionality(Nationality nacionality) {
-        this.nacionality = nacionality;
+    public void setNationality(Nationality nacionality) {
+        this.nationality = nacionality;
     }
 
     public String getPhoto() {

@@ -17,10 +17,11 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
      * QUERY
      */
     private final static String FINDALL ="SELECT name, nationality, photo from artist";
-    private final static String FINBYID ="SELECT name, nationality, photo  from artist WHERE name   =?";
+    private final static String FINBYID ="SELECT name, nationality, photo  from artist WHERE name =?";
     private final static String INSERT ="INSERT INTO artist (name, nationality, photo) VALUES (?,?,?)";
     private final static String UPDATE ="UPDATE artist SET  nationality=?, photo=? WHERE name=?";
     private final static String DELETE ="DELETE FROM artist WHERE name=?";
+    private final static String FINDBYNATIONALITY = "SELECT name, nationality, photo FROM artist WHERE nationality = ?";
     private final static String FIND_NAMES ="SELECT name FROM artist";
 
 
@@ -35,33 +36,32 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
         super(nacionality, photo);
         this.conn = conn;
     }
-   /* public ArtistDAO(){
-        Connect.getConnect();
-    }*/
 
     public ArtistDAO(){
-        this.conn = Connect.getConnect();
-    }
+      this.conn=  Connect.getConnect();
+
+  
+
+   
 
 
     @Override
     public List<Artist> findAll() throws SQLException {
-        List <Artist> result = new ArrayList<>();
-        try(PreparedStatement pst=this.conn.prepareStatement(FINDALL)){
-            try(ResultSet res = pst.executeQuery()){
-                while(res.next()) {
+        List<Artist> result = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
                     Artist a = new Artist();
                     a.setName(res.getString("name"));
-                    String nacionalityStr = res.getString("nacionality");
-                    Nationality nationality = Nationality.valueOf(nacionalityStr);
-
+                    String nacionalityStr = res.getString("nationality");
+                    Nationality nationality = convertToNationality(nacionalityStr);
+                    a.setNationality(nationality);
                     a.setPhoto(res.getString("photo"));
 
                     result.add(a);
                 }
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return result;
@@ -76,7 +76,7 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
                 if(res.next()) {
                     result = new Artist();
                     result.setName(res.getString("name"));
-                    result.setNacionality(Nationality.valueOf(res.getString("nationality")));
+                    result.setNationality(Nationality.valueOf(res.getString("nationality")));
 
 
                 }
@@ -84,6 +84,25 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
         }
         return result;
     }
+    public List<Artist> findByNationality(Nationality nationality) throws SQLException {
+        List<Artist> result = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYNATIONALITY)) {
+            pst.setString(1, nationality.name()); // Convierte el enum a una cadena para usarlo en la consulta
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
+                    Artist artist = new Artist();
+                    artist.setName(res.getString("name"));
+                    artist.setNationality(nationality); // Establece la nacionalidad directamente desde el parámetro
+                    artist.setPhoto(res.getString("photo"));
+                    result.add(artist);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 
 
@@ -97,8 +116,8 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
                 // INSERT
                 try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
                     pst.setString(1, entity.getName());
-                    pst.setString(2, entity.getNacionality().name());
-                    pst.setString(4, entity.getPhoto());
+                    pst.setString(2, entity.getNationality().name());
+                    pst.setString(3, entity.getPhoto());
 
                     pst.executeUpdate();
                 }
@@ -107,7 +126,7 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
                 // UPDATE
                 try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
                     pst.setString(3, entity.getName());
-                    pst.setString(1, entity.getNacionality().name());
+                    pst.setString(1, entity.getNationality().name());
                     pst.setString(2, entity.getPhoto());
 
                     pst.executeUpdate();
@@ -141,4 +160,18 @@ public class ArtistDAO extends Artist implements iDAO<Artist, String> {
         return names;
     }
 
+
+
+
+
+
+
+    private Nationality convertToNationality(String nationalityStr) {
+        try {
+            return Nationality.valueOf(nationalityStr);
+        } catch (IllegalArgumentException e) {
+            // Handle the case where the string doesn't match any enum value.
+            return Nationality.UNKNOWN; // You can define a default value for this case.
+        }
+    }
 }
