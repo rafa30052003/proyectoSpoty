@@ -2,7 +2,10 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -99,6 +102,18 @@ public class ControllerAddAlbum implements Initializable {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("album.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) txtName.getScene().getWindow();
+
+            // Establece la nueva escena
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -123,4 +138,5 @@ public class ControllerAddAlbum implements Initializable {
     }
 
 }
+
 
