@@ -13,13 +13,12 @@
             fx:controller="org.example.controller.ControllerAlbum"
             prefHeight="400.0" prefWidth="600.0">
     <children>
-        <TableView fx:id="tableView" layoutX="26.0" layoutY="100.0" prefHeight="580.0" prefWidth="742.0" style="-fx-background-color: white; -fx-border-color: #020113; -fx-border-style: hidden hidden hidden hidden;">
+        <TableView fx:id="tableView" layoutX="26.0" layoutY="135.0" prefHeight="545.0" prefWidth="716.0" style="-fx-background-color: white; -fx-border-color: #020113; -fx-border-style: hidden hidden hidden hidden;">
             <columns>
                 <TableColumn fx:id="columNombre" prefWidth="105.06664276123047" style="-fx-background-color: white;" text="NOMBRE" />
-                <TableColumn fx:id="columFoto" prefWidth="96.800048828125" style="-fx-background-color: white;" text="FOTO" />
-                <TableColumn fx:id="columFecha" prefWidth="128.79995727539062" style="-fx-background-color: white; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="FECHA DE PUBLICACIÓN" />
-                <TableColumn fx:id="columRepro" prefWidth="169.066650390625" style="-fx-background-color: white; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="REPRODUCCIONES" />
-                <TableColumn fx:id="columArt" prefWidth="190.13330078125" style="-fx-background-color: white; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="ARTISTA" />
+                <TableColumn fx:id="columFecha" prefWidth="200.0" style="-fx-background-color: white; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="FECHA DE PUBLICACIÓN" />
+                <TableColumn fx:id="columRepro" prefWidth="179.99996948242188" style="-fx-background-color: white; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="REPRODUCCIONES" />
+                <TableColumn fx:id="columArt" prefWidth="225.60003662109375" style="-fx-background-color: white; -fx-border-width: 0px 0px 0px 0px; -fx-border-color: #020113;" text="ARTISTA" />
             </columns>
         </TableView>
         <Button fx:id="insertar" layoutX="62.0" layoutY="710.0" mnemonicParsing="false" onAction="#btninsertar" prefHeight="42.0" prefWidth="173.0" style="-fx-background-color: #1DB954;" text="INSERTAR" textFill="#fcfcfc">
