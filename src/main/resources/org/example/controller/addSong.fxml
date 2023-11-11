@@ -5,18 +5,16 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ControllerAddArtist">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ControllerAddSong">
     <top>
         <AnchorPane prefHeight="140.0" prefWidth="396.0" style="-fx-background-color: #1DB954FF;" BorderPane.alignment="CENTER">
             <children>
-                <Text fill="WHITE" layoutX="172.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NUEVO ARTISTA" textAlignment="CENTER" wrappingWidth="255.73676300048828">
+                <Text fill="WHITE" layoutX="172.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NUEVA CANCION" textAlignment="CENTER" wrappingWidth="255.73676300048828">
                     <font>
                         <Font name="System Bold Italic" size="36.0" />
                     </font></Text>
@@ -27,33 +25,47 @@
         </AnchorPane>
     </top>
     <center>
-        <AnchorPane prefHeight="372.0" prefWidth="388.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="282.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
             <children>
-                <TextField fx:id="txtName" layoutX="219.0" layoutY="21.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #1DB954FF; -fx-background-color: white;" />
-                <Label layoutX="76.0" layoutY="22.0" text="NOMBRE" textFill="#265599">
+                <TextField fx:id="txtname" layoutX="135.0" layoutY="21.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #1DB954FF; -fx-background-color: white;" />
+                <Label layoutX="29.0" layoutY="35.0" text="NOMBRE" textFill="#265599">
                     <font>
                         <Font name="System Bold Italic" size="16.0" />
                     </font></Label>
-                <Label layoutX="89.0" layoutY="75.0" text="FOTO" textFill="#265599">
+                <Label layoutX="434.0" layoutY="91.0" text="CANCION" textFill="#265599">
                     <font>
                         <Font name="System Bold Italic" size="16.0" />
                     </font></Label>
-                <Label layoutX="69.0" layoutY="148.0" text="NACIONALIDAD" textFill="#265599">
-                    <font>
-                        <Font name="System Bold Italic" size="16.0" />
-                    </font></Label>
-                <Button layoutX="135.0" layoutY="203.0" mnemonicParsing="false" onAction="#addArtist" prefHeight="42.0" prefWidth="319.0" style="-fx-background-color: #1DB954FF;" text="GUARDAR" textFill="#fcfcfc">
+                <Button layoutX="135.0" layoutY="203.0" mnemonicParsing="false" onAction="#addSong" prefHeight="42.0" prefWidth="319.0" style="-fx-background-color: #1DB954FF;" text="GUARDAR" textFill="#fcfcfc">
                     <font>
                         <Font name="System Bold Italic" size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="foto" layoutX="226.0" layoutY="75.0" mnemonicParsing="false" onAction="#elegirFoto" prefHeight="26.0" prefWidth="146.0" text="Seleccione el archivo" />
-                <Pane layoutX="408.0" layoutY="35.0" prefHeight="141.0" prefWidth="163.0">
-                    <children>
-                        <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true" />
-                    </children>
-                </Pane>
-                <ComboBox fx:id="txtNationality" layoutX="224.0" layoutY="147.0" prefWidth="150.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #1DB954FF; -fx-background-color: white;" />
+                <Button layoutX="398.0" layoutY="130.0" mnemonicParsing="false" onAction="#chooseAudioFile" prefHeight="26.0" prefWidth="146.0" text="Seleccione el archivo" />
+            <Label layoutX="29.0" layoutY="78.0" prefHeight="26.0" prefWidth="66.0" text="GENERO" textFill="#265599">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="123.0" text="DURACION" textFill="#265599">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="443.0" layoutY="22.0" text="ALBUM" textFill="#265599">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtgender" layoutX="135.0" layoutY="67.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #1DB954FF; -fx-background-color: white;" />
+            <TextField fx:id="txtduration" layoutX="135.0" layoutY="116.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #1DB954FF; -fx-background-color: white;" />
+            <ComboBox fx:id="txtalbum" layoutX="396.0" layoutY="54.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #1DB954FF; -fx-border-style: hidden hidden solid hidden;" />
+            <Label layoutX="20.0" layoutY="166.0" text="REPRODUCCIONES" textFill="#265599">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtrepro" layoutX="181.0" layoutY="165.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: #1DB954FF; -fx-background-color: white;" />
             </children>
         </AnchorPane>
     </center>
