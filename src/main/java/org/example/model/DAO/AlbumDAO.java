@@ -193,7 +193,7 @@ public class AlbumDAO implements iDAO <Album,String> {
             e.printStackTrace();
         }
         return names;
-
+    }
     public void updateAlbum(String newName, Date newpublication_date, Artist newname_artist, String name) throws SQLException {
         if (newName != null && name != null && newpublication_date != null && newname_artist != null && !newName.isEmpty() && !name.isEmpty()) {
             try (PreparedStatement pst = this.conn.prepareStatement(UPDATEALL)) {
