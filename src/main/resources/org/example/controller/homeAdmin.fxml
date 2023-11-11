@@ -42,11 +42,11 @@
    <center>
       <AnchorPane fx:id="ap" prefHeight="834.0" prefWidth="863.0" style="-fx-background-color: #020113;" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="myartists" layoutX="52.0" layoutY="113.0" prefHeight="580.0" prefWidth="742.0">
+            <TableView fx:id="myartists" layoutX="52.0" layoutY="113.0" prefHeight="580.0" prefWidth="742.0" style="-fx-background-color: #020113;">
               <columns>
-                <TableColumn fx:id="photo" prefWidth="221.33334350585938" text="FOTO" />
-                <TableColumn fx:id="name" prefWidth="245.86672973632812" text="NOMBRE" />
-                  <TableColumn fx:id="nationality" prefWidth="273.6000122070312" text="NACIONALIDAD" />
+                <TableColumn fx:id="photo" prefWidth="221.33334350585938" style="-fx-background-color: #020113; -fx-text-fill: white;" text="FOTO" />
+                <TableColumn fx:id="name" prefWidth="245.86672973632812" style="-fx-background-color: #020113; -fx-text-fill: white;" text="NOMBRE" />
+                  <TableColumn fx:id="nationality" prefWidth="273.6000122070312" style="-fx-background-color: #020113; -fx-text-fill: white;" text="NACIONALIDAD" />
               </columns>
             </TableView>
             <Button layoutX="56.0" layoutY="731.0" mnemonicParsing="false" onAction="#switchToAddArtist" prefHeight="42.0" prefWidth="306.0" style="-fx-background-color: #1DB954;" text="INSERTAR" textFill="#fcfcfc">

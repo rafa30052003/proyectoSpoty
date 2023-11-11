@@ -78,7 +78,7 @@ public class ControllerAddSong implements Initializable {
               s.setArchive_song(audioFilePath);
 
               sdao.save(s);
-             App.setRoot("song");
+             App.setRoot("HomeAdmin");
 
         } catch (SQLException e) {
             e.printStackTrace();

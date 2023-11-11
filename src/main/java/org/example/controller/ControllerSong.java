@@ -192,7 +192,7 @@ public class ControllerSong implements Initializable {
         album.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<Album>() {
             @Override
             public String toString(Album album) {
-                return album.getName();
+                return (album != null) ? album.getName() : "";
             }
 
             @Override
@@ -204,13 +204,15 @@ public class ControllerSong implements Initializable {
 
         album.setOnEditCommit(event -> {
             Song selected = event.getRowValue();
-            selected.setAlbum(event.getNewValue());
+            // Verifica si event.getNewValue() es null antes de intentar acceder a su nombre
+            selected.setAlbum((event.getNewValue() != null) ? event.getNewValue() : new Album());
             try {
                 sdao.save(selected);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         });
+
         mysongs.setEditable(true);
         mysongs.getSelectionModel().cellSelectionEnabledProperty().set(true);
     }

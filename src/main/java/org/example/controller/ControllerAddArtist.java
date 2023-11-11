@@ -2,6 +2,7 @@ package org.example.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -62,10 +63,10 @@ public class ControllerAddArtist implements Initializable {
         Nationality nationality = txtNationality.getValue();
 
         if (name.isEmpty() ||    nationality == Nationality.UNKNOWN || imageView==null) {
-            /*Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Campos Incompletos");
             alert.setHeaderText("Por favor complete todos los campos.");
-            alert.showAndWait();*/
+            alert.showAndWait();
             return;
         }
         try {
