@@ -12,32 +12,26 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.App;
-import org.example.model.DAO.AlbumDAO;
-import org.example.model.DAO.ListDAO;
-import org.example.model.DAO.SongDAO;
-import org.example.model.DAO.UserDAO;
-import org.example.model.dto.Album;
-import org.example.model.dto.Song;
-import org.example.model.dto.User;
+import org.example.model.DAO.*;
+import org.example.model.dto.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ControllerUserHome {
     private int selectedListId;  // Variable para almacenar el ID de la lista seleccionada
     SongDAO songDAO = new SongDAO();
     ListDAO listDAO = new ListDAO();
+    CommentDAO commentDAO = new CommentDAO();
     @FXML
     private AnchorPane panelModify;
     //////////////////////////////////////las cancionas0
@@ -79,13 +73,21 @@ public class ControllerUserHome {
     @FXML
     private Button buttonSong;
     @FXML
+    private Button buttonSongofList;
+    @FXML
     private Button buttonAlbun;
     @FXML
     private Button buttonAlbunSong;
     @FXML
+    private Button buttonDeleteList;
+    @FXML
     private Button buttonexit;
     @FXML
     private Button buttonAddList;
+    @FXML
+    private Button buttonAddSongofList;
+    @FXML
+    private Button buttonDelteSongofList;
     @FXML
     private Button buttonModifyList;
     @FXML
@@ -107,6 +109,11 @@ public class ControllerUserHome {
     //modify
     ////////////////////////////////////////////////////////
     @FXML
+    private TableView<Comment> tableComment;
+
+    @FXML
+    private TableColumn<Comment, String> columnnComment;
+    @FXML
     private TextField textName;
     @FXML
     private TextField textmail;
@@ -120,7 +127,7 @@ public class ControllerUserHome {
     private UserDAO userDAO = new UserDAO();
     ///////////////////////////////////////////////////////////// listas de canciones
     @FXML
-    private ListView<List> listMyList;
+    private ListView<String> listMyList;
     @FXML
     private MenuItem addSub;
     @FXML
@@ -131,6 +138,13 @@ public class ControllerUserHome {
     private MenuItem list;
     @FXML
     private MenuItem listSub;
+    @FXML
+    private MenuItem addComment;
+
+    @FXML
+    private MenuItem listSubcrip;
+    @FXML
+    private MenuItem activeComment;
     //////////////////////////////////////////////////////////////////Campos de la cancion
     @FXML
     private Label labelDurecion;
@@ -152,6 +166,10 @@ public class ControllerUserHome {
     private void buttonExit() throws IOException {
         App.setRoot("login");
     }
+
+    /**
+     * funcion para abrir la ventana para crear una lista
+     */
 
     @FXML
     private void buttonCreateList() {
@@ -176,9 +194,62 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * esta funcion es para modifycar la lista
+     *
+     * @throws IOException
+     */
+
     @FXML
     private void buttonModifyList() throws IOException {
-        App.setRoot("ModListView");
+        try {
+            // Cargar el nuevo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ModListView.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena y ventana
+            Stage subStage = new Stage();
+            subStage.initModality(Modality.APPLICATION_MODAL); // Esta línea hace que la ventana sea modal
+            subStage.setTitle("Subventana");
+
+            // Establecer la escena en la nueva ventana
+            Scene scene = new Scene(root);
+            subStage.setScene(scene);
+
+            // Mostrar la nueva ventana
+            subStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void buttonAddComment() throws IOException {
+        try {
+            // Cargar el nuevo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addComment.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena y ventana
+            Stage subStage = new Stage();
+            subStage.initModality(Modality.APPLICATION_MODAL); // Esta línea hace que la ventana sea modal
+            subStage.setTitle("Subventana");
+
+            // Establecer la escena en la nueva ventana
+            Scene scene = new Scene(root);
+            subStage.setScene(scene);
+
+            // Mostrar la nueva ventana
+            subStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void buttonDeleteComment() throws IOException {
+        int id_comment = 1;
+
     }
 
 
@@ -188,6 +259,7 @@ public class ControllerUserHome {
         tableSong.setVisible(true);
         tableAlbun.setVisible(false);
         panelModify.setVisible(false);
+        tableComment.setVisible(false);
 
         // Desactiva otras tablas si las tienes
     }
@@ -199,6 +271,7 @@ public class ControllerUserHome {
         tableSong.setVisible(false);
         tableAlbun.setVisible(true);
         panelModify.setVisible(false);
+        tableComment.setVisible(false);
 
 
     }
@@ -210,6 +283,7 @@ public class ControllerUserHome {
         tableSong.setVisible(false);
         tableAlbun.setVisible(false);
         panelModify.setVisible(true);
+        tableComment.setVisible(false);
 
 
         // Accede a los datos del usuario logueado
@@ -418,6 +492,7 @@ public class ControllerUserHome {
         imgUser.setImage(userImage);
         tableSong.setVisible(false);
         tableAlbun.setVisible(false);
+        tableComment.setVisible(false);
         panelModify.setVisible(false);
         // Configura las celdas de las columnas para la tabla de canciones
         columnnSong_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -433,8 +508,6 @@ public class ControllerUserHome {
         columnn_Publication_dateAlbun.setCellValueFactory(new PropertyValueFactory<>("public_time"));
         columnn_N_reproduction.setCellValueFactory(new PropertyValueFactory<>("nrepro"));
         columnn_Albun_NameArtistAlbun.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName_artist().getName()));
-
-
 
 
         // Obtén los datos de álbumes desde la base de datos
@@ -463,17 +536,15 @@ public class ControllerUserHome {
             // Maneja los errores de base de datos
         }
         listMyList.setOnMouseClicked(event -> {
-            List selectedListName = listMyList.getSelectionModel().getSelectedItem();
+            MouseEvent mouseEvent = (MouseEvent) event;
+            Object selectedListName = listMyList.getSelectionModel().getSelectedItem();
+
             if (selectedListName != null) {
                 // Llama a la función para obtener la ID de la lista
-                try {
-                    handleListSelection(selectedListName);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                handleListSelection(mouseEvent);
             }
         });
-
+        //tabla comentarios
 
 
     }
@@ -524,6 +595,10 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * funcion para ver las canciones de el albun
+     */
+
     @FXML
     private void showAlbumSongs() {
         // Obtén el álbum seleccionado en la tabla de álbumes
@@ -550,6 +625,12 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * esta funcion es para que se muestre la informacion de la cancion sobre la que clico
+     *
+     * @param mouseEvent
+     */
+
     @FXML
     public void handleSongSelection(javafx.scene.input.MouseEvent mouseEvent) {
         Song selectedSong = tableSong.getSelectionModel().getSelectedItem();
@@ -566,6 +647,10 @@ public class ControllerUserHome {
             LabeNameSong.setText(selectedSongName.get());
         }
     }
+
+    /**
+     * funcion para mostrar todas las canciones
+     */
 
     @FXML
     private void buttonShowAllSongs() {
@@ -588,37 +673,55 @@ public class ControllerUserHome {
     }
 
 
+    /**
+     * funcion para mostrar todas las listas de canciones
+     *
+     * @param <list>
+     */
     @FXML
-    private void buttonShowList() {
+    private <list> void buttonShowList() {
         try {
             // Llama a tu DAO para obtener todas las listas en la base de datos
             ListDAO listDAO = new ListDAO();
-            List<List> allLists = Collections.singletonList(listDAO.findAll());
+            List<list> allLists = (List<list>) listDAO.findAllNameLists();
 
             // Convierte la lista de listas en un ObservableList para mostrarla en tu ListView
-            ObservableList<List> allListsObservable = FXCollections.observableArrayList(allLists);
+            ObservableList<list> allListsObservable = FXCollections.observableArrayList(allLists);
 
             // Asigna las listas al ListView 'listMyList'
-            listMyList.setItems(allListsObservable);
+            listMyList.setItems((ObservableList<String>) allListsObservable);
 
         } catch (SQLException e) {
             e.printStackTrace();
             // Manejar errores de base de datos
         }
     }
-    private void handleListSelection(List selectedListName) throws SQLException {
-        try {
-            // Debes llamar a tu DAO para obtener el ID de la lista en función del nombre
-            int listId = listDAO.findById(selectedListName.toString()).getId();
 
-            // Asigna el ID de la lista a la variable selectedListId
-            selectedListId = listId;
-            System.out.println("ID de la lista seleccionada: " + selectedListId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Manejar errores de base de datos
+    /**
+     * funcion para guardar la id de la lista sobre la que clico
+     *
+     * @throws SQLException
+     */
+    @FXML
+    private void handleListSelection(MouseEvent event) {
+        String selectedListName = listMyList.getSelectionModel().getSelectedItem();
+
+        if (selectedListName != null) {
+            try {
+                int listId = listDAO.findIdByName(selectedListName);
+                selectedListId = listId;
+                System.out.println("ID de la lista seleccionada: " + selectedListId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle database errors
+            }
         }
     }
+
+    /**
+     * funcion para subcribirme a una lista
+     */
+
     @FXML
     private void addSub() {
         // Obtén el nombre de usuario logueado desde ControllerLogin
@@ -637,6 +740,10 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * funcion para borrar la subscripcion
+     */
+
     @FXML
     private void deleteSub() {
         // Obtén el nombre de usuario logueado desde ControllerLogin
@@ -654,11 +761,169 @@ public class ControllerUserHome {
             showValidationError("Por favor, seleccione una lista para eliminar la suscripción.");
         }
     }
+
+    /**
+     * estas funcion es para mostrar solo las listas que ha creado el usuario
+     */
+    @FXML
+    private void buttonShowMyList() {
+        try {
+            // Llama a tu DAO para obtener todas las listas en la base de datos
+            ListDAO listDAO = new ListDAO();
+            List<String> allLists = listDAO.findAllNameListsByUser(ControllerLogin.getLoggedInUserName());
+
+            // Convierte la lista de listas en un ObservableList para mostrarla en tu ListView
+            ObservableList<String> allListsObservable = FXCollections.observableArrayList(allLists);
+
+            // Asigna las listas al ListView 'listMyList'
+            listMyList.setItems(allListsObservable);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar errores de base de datos
+        }
+    }
+
+    @FXML
+    private void handleDeleteList() {
+        // Verifica que se haya seleccionado una lista antes de intentar borrar
+        if (selectedListId != -1) {
+            try {
+                listDAO.delete(selectedListId);
+                showInformation("Lista borrada", "Lista borrada con éxito");
+            } catch (SQLException e) {
+                showValidationError("Error al borrar la lista");
+            }
+        } else {
+            showValidationError("No se ha seleccionado ninguna lista para borrar.");
+        }
+    }
+
+    @FXML
+    private void buttonShowMyListSub() {
+        try {
+            // Llama a tu DAO para obtener todas las listas en la base de datos
+            ListDAO listDAO = new ListDAO();
+            List<String> allLists = listDAO.findSubscribedLists(ControllerLogin.getLoggedInUserName());
+
+            // Convierte la lista de listas en un ObservableList para mostrarla en tu ListView
+            ObservableList<String> allListsObservable = FXCollections.observableArrayList(allLists);
+
+            // Asigna las listas al ListView 'listMyList'
+            listMyList.setItems(allListsObservable);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar errores de base de datos
+        }
+    }
+
+    @FXML
+    private void showCommentsForList(ActionEvent event) {
+        tableComment.setVisible(true);
+        try {
+            int id = selectedListId;
+
+            // Obtén un comentario de la tabla comment
+            Comment comment = commentDAO.findCommentById(selectedListId);
+
+            // Verifica si el comentario no es nulo antes de procesarlo
+            if (comment != null) {
+                // Crea una lista con el único comentario
+                List<Comment> comments = Collections.singletonList(comment);
+
+                // Convertir la lista en un ObservableList para mostrarla en la tabla
+                ObservableList<Comment> commentsObservable = FXCollections.observableArrayList(comments);
+
+                // Asignar los comentarios a la tabla y configurar las celdas de la columna
+                tableComment.setItems(commentsObservable);
+
+                // Configurar las celdas de la columna para mostrar el texto del comentario
+                columnnComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+            } else {
+                // El comentario es nulo, puedes mostrar un mensaje o manejarlo según tu lógica
+                System.out.println("El comentario es nulo");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar errores de la base de datos
+        }
+    }
+
+    @FXML
+    private void addSongonList() {
+        try {
+            // Cargar el nuevo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addSongofList.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena y ventana
+            Stage subStage = new Stage();
+            subStage.initModality(Modality.APPLICATION_MODAL); // Esta línea hace que la ventana sea modal
+            subStage.setTitle("Subventana");
+
+            // Establecer la escena en la nueva ventana
+            Scene scene = new Scene(root);
+            subStage.setScene(scene);
+
+            // Mostrar la nueva ventana
+            subStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void listSongofList(ActionEvent event) {
+        tableSong.setVisible(true);
+        if (selectedListId > 0) {
+            try {
+                // Llama a la función `findAll` en tu DAO para obtener todas las canciones de la base de datos
+                List<Song> allSongs = listDAO.findSongsByListId(selectedListId);
+
+                // Convierte la lista de canciones en un ObservableList para mostrarla en la tabla
+                ObservableList<Song> allSongsObservable = FXCollections.observableArrayList(allSongs);
+
+                // Establece los datos en la tabla de canciones
+                tableSong.setItems(allSongsObservable);
+
+                // Activa la tabla de canciones y desactiva la tabla de álbumes
+                activeTablaSong();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Manejar errores de base de datos
+            }
+
+        }else{
+            System.out.println();
+
+        }
+    }
+    @FXML
+    private void deleteSelectedSong(ActionEvent event) {
+        // Obtén la canción seleccionada desde la tabla
+        Song selectedSong = tableSong.getSelectionModel().getSelectedItem();
+
+        if (selectedSong != null) {
+            try {
+                // Obtén el ID de la lista seleccionada
+                int listId = selectedListId;
+
+                // Elimina la canción seleccionada de la lista
+                listDAO.deleteSongOfList(selectedSong.getId(), listId);
+
+                // Vuelve a cargar la lista de canciones después de la eliminación
+                listSongofList(event);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Manejar errores de la base de datos
+            }
+        } else {
+            System.out.println("Selecciona una canción para eliminar.");
+        }
+    }
 }
-
-
-
-
 
 
 

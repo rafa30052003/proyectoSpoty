@@ -1,14 +1,12 @@
 package org.example.model.dto;
 
-import java.util.Objects;
-
-public class List {
+public class list {
     private int id;
     private String description;
     private String name_list;
     private String name_user;
 
-    public List(int id, String description, String name_list, String name_user) {
+    public list(int id, String description, String name_list, String name_user) {
         this.id = id;
         this.description = description;
         this.name_list = name_list;
@@ -57,6 +55,6 @@ public class List {
                 '}';
     }
 
-    public List() {
+    public list() {
     }
 }

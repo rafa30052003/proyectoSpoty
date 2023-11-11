@@ -31,23 +31,31 @@ public class ControllerAddUser {
     @FXML
     private Button buttonadd;
 
-
     private UserDAO userDAO = new UserDAO();
 
     private String photoPath = ""; // Ruta de la imagen seleccionada
-
-
 
     @FXML
     private void exit() throws IOException {
         App.setRoot("login");
     }
+
     @FXML
     private void addUser(ActionEvent event) {
         if (areFieldsFilled()) {
             String name = textName.getText();
             String mail = textmail.getText();
             String userPassword = password.getText();
+
+            // Validar formato de correo electrónico
+            if (!Utils.validateEmail(mail)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Formato de correo incorrecto");
+                alert.setHeaderText(null);
+                alert.setContentText("Por favor, introduzca un correo electrónico válido.");
+                alert.showAndWait();
+                return;
+            }
 
             if (photoPath.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -103,8 +111,6 @@ public class ControllerAddUser {
             alert.showAndWait();
         }
     }
-
-
 
     @FXML
     private void chooseImage(ActionEvent event) {
