@@ -28,44 +28,36 @@
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="OpAddList" mnemonicParsing="false" onAction="#buttonCreateList" prefHeight="50.0" prefWidth="193.0" style="-fx-background-color: #020113;" text="Crear lista nueva" textFill="WHITE">
-                    <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
-                    </font></Button>
-                <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #020113;" text="Borrar lista" textFill="WHITE">
-                    <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
-                    </font></Button>
-                <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="202.0" style="-fx-background-color: #020113;" text="Añadir canción a la lista" textFill="WHITE">
-                    <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
-                    </font></Button>
-                <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="193.0" style="-fx-background-color: #020113;" text="Borrar cacion de la lista" textFill="WHITE">
-                    <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
-                    </font></Button>
-                <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="193.0" style="-fx-background-color: #020113;" text="ver todas las canciones" textFill="WHITE">
+                <Button fx:id="buttonSongofList" mnemonicParsing="false" onAction="#listSongofList" prefHeight="50.0" prefWidth="206.0" style="-fx-background-color: #020113;" text="Ver canciones de la lista " textFill="WHITE">
                     <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>
                 </Button>
-                <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="Ordenar canciones" textFill="WHITE">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="subscribirme" />
-                        <MenuItem mnemonicParsing="false" text="darse de baja" />
-                    </items>
+                <Button fx:id="OpAddList" mnemonicParsing="false" onAction="#buttonCreateList" prefHeight="50.0" prefWidth="193.0" style="-fx-background-color: #020113;" text="Crear lista nueva" textFill="WHITE">
                     <font>
-                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                    </font></Button>
+                <Button fx:id="buttonDeleteList" mnemonicParsing="false" onAction="#handleDeleteList" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #020113;" text="Borrar lista" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                    </font></Button>
+                <Button fx:id="buttonAddSongofList" mnemonicParsing="false" onAction="#addSongonList" prefHeight="50.0" prefWidth="202.0" style="-fx-background-color: #020113;" text="Añadir canción a la lista" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                    </font></Button>
+                <Button fx:id="buttonDelteSongofList" mnemonicParsing="false" onAction="#deleteSelectedSong" prefHeight="50.0" prefWidth="193.0" style="-fx-background-color: #020113;" text="Borrar cancion de la lista" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>
-                </MenuButton>
-                <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="Listas de canciones" textFill="WHITE">
+                </Button>
+                <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="ver listas " textFill="WHITE">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="mis listas " />
-                        <MenuItem mnemonicParsing="false" text="listas Subscritas" />
+                        <MenuItem fx:id="mylist" mnemonicParsing="false" onAction="#buttonShowMyList" text="mis listas " />
+                        <MenuItem fx:id="listSubcrip" mnemonicParsing="false" onAction="#buttonShowMyListSub" text="listas Subscritas" />
                         <MenuItem fx:id="list" mnemonicParsing="false" onAction="#buttonShowList" text="todas las listas " />
                     </items>
                     <font>
-                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                        <Font name="Arial Rounded MT Bold" size="24.0" />
                     </font>
                 </MenuButton>
             </children>
@@ -76,7 +68,7 @@
             <children>
                 <ImageView fitHeight="201.0" fitWidth="1170.0" layoutX="-14.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="false" style="-fx-border-color: #22ff00;">
                     <image>
-                        <Image url="@../foto/fondocolor.png" />
+                        <Image url="@../../../foto/fondocolor.png" />
                     </image>
                 </ImageView>
                 <MenuButton layoutX="1040.0" layoutY="15.0" mnemonicParsing="false" text="">
@@ -155,7 +147,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <ListView fx:id="listMyList" layoutX="1.0" layoutY="30.0" prefHeight="343.0" prefWidth="196.0" style="-fx-background-color: white;" />
+                <ListView fx:id="listMyList" layoutX="1.0" layoutY="30.0" onMouseClicked="#handleListSelection" onMouseExited="#handleSongSelection" prefHeight="343.0" prefWidth="196.0" style="-fx-background-color: #020a1f;" />
                 <MenuButton layoutX="1.0" layoutY="382.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="Opciones de subscripcion" textFill="WHITE">
                     <items>
                         <MenuItem fx:id="addSub" mnemonicParsing="false" onAction="#addSub" text="subscribirme" />
@@ -167,9 +159,9 @@
                 </MenuButton>
                 <MenuButton layoutX="1.0" layoutY="407.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: #020113;" text="Opciones de Comentario" textFill="WHITE">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="crear" />
+                        <MenuItem fx:id="addComment" mnemonicParsing="false" onAction="#buttonAddComment" text="crear" />
                         <MenuItem mnemonicParsing="false" text="borrar" />
-                        <MenuItem mnemonicParsing="false" text="ver comentarios" />
+                        <MenuItem fx:id="activeComment" mnemonicParsing="false" onAction="#showCommentsForList" text="ver comentarios" />
                     </items>
                     <font>
                         <Font name="Arial Rounded MT Bold" size="12.0" />
@@ -181,22 +173,27 @@
     <center>
         <AnchorPane prefHeight="463.0" prefWidth="500.0" style="-fx-background-color: #020113;" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="tableSong" layoutX="-11.0" onMouseClicked="#handleSongSelection" prefHeight="398.0" prefWidth="764.0">
+                <TableView fx:id="tableSong" layoutX="-11.0" layoutY="5.0" onMouseClicked="#handleSongSelection" prefHeight="393.0" prefWidth="764.0" style="-fx-background-color: #020a1f;">
                     <columns>
-                        <TableColumn fx:id="columnnSong_Id" prefWidth="47.20001149177551" text="id" />
-                        <TableColumn fx:id="columnnSong_Name" prefWidth="117.59994888305664" text="nombre" />
-                        <TableColumn fx:id="columnnSong_Duration" prefWidth="73.5999755859375" text="duracion" />
-                        <TableColumn fx:id="columnnSong_Gender" prefWidth="123.19996643066406" text="genero" />
-                        <TableColumn fx:id="columnnSong_Name_Disk_Song" prefWidth="207.19998168945312" text="nombre del disco" />
-                        <TableColumn fx:id="columnnSong_N_repro" prefWidth="187.2000732421875" text="n_reproduciones" />
+                        <TableColumn fx:id="columnnSong_Id" prefWidth="47.20001149177551" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="id" />
+                        <TableColumn fx:id="columnnSong_Name" prefWidth="117.59994888305664" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="nombre" />
+                        <TableColumn fx:id="columnnSong_Duration" prefWidth="73.5999755859375" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="duracion" />
+                        <TableColumn fx:id="columnnSong_Gender" prefWidth="123.19996643066406" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="genero" />
+                        <TableColumn fx:id="columnnSong_Name_Disk_Song" prefWidth="207.19998168945312" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="nombre del disco" />
+                        <TableColumn fx:id="columnnSong_N_repro" prefWidth="187.2000732421875" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="n_reproduciones" />
                     </columns>
                 </TableView>
-                <TableView fx:id="tableAlbun" layoutX="-11.0" layoutY="-4.0" prefHeight="403.0" prefWidth="762.0">
+                <TableView fx:id="tableAlbun" layoutX="-11.0" layoutY="-4.0" prefHeight="403.0" prefWidth="762.0" style="-fx-background-color: #020a1f; -fx-border-color: white;">
                     <columns>
-                        <TableColumn fx:id="columnnName_Albun" prefWidth="157.60000038146973" text="nombre" />
-                        <TableColumn fx:id="columnn_Publication_dateAlbun" prefWidth="290.4000244140625" text="fecha de publicacion" />
-                        <TableColumn fx:id="columnn_N_reproduction" prefWidth="111.20004272460938" text="N_reproduciones" />
-                        <TableColumn fx:id="columnn_Albun_NameArtistAlbun" prefWidth="203.199951171875" text="nombre de el artista" />
+                        <TableColumn fx:id="columnnName_Albun" prefWidth="157.60000038146973" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="nombre" />
+                        <TableColumn fx:id="columnn_Publication_dateAlbun" prefWidth="290.4000244140625" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="fecha de publicacion" />
+                        <TableColumn fx:id="columnn_N_reproduction" prefWidth="111.20004272460938" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="N_reproduciones" />
+                        <TableColumn fx:id="columnn_Albun_NameArtistAlbun" minWidth="7.99993896484375" prefWidth="193.59991455078125" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="nombre de el artista" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="tableComment" layoutX="-9.0" layoutY="1.0" prefHeight="397.0" prefWidth="770.0" style="-fx-background-color: #020a1f; -fx-border-color: white;">
+                    <columns>
+                        <TableColumn fx:id="columnnComment" prefWidth="760.0000151634216" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="comentario" />
                     </columns>
                 </TableView>
                 <Button fx:id="buttonAlbunSong" layoutX="95.0" layoutY="406.0" mnemonicParsing="false" onAction="#showAlbumSongs" prefHeight="50.0" prefWidth="217.0" style="-fx-background-color: #020113;" text="ver canciones de el albun" textFill="WHITE">
@@ -211,7 +208,7 @@
                 </Button>
                 <AnchorPane fx:id="panelModify" layoutX="11.0" prefHeight="400.0" prefWidth="722.0">
                     <children>
-                        <ImageView fx:id="imgUser1" fitHeight="399.0" fitWidth="760.0" layoutX="-23.0" layoutY="1.0" pickOnBounds="true" preserveRatio="false" style="-fx-border-color: #22ff00;">
+                        <ImageView fx:id="imgUser1" fitHeight="401.0" fitWidth="762.0" layoutX="-23.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="false" style="-fx-border-color: #22ff00;">
                             <image>
                                 <Image url="@../../../foto/fondouser.png" />
                             </image>

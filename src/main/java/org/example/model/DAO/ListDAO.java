@@ -1,121 +1,211 @@
 package org.example.model.DAO;
 
-import org.example.interfaceDAO.iDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import org.example.conexion.Connect;
-import org.example.conexion.ConnectionData;
-import org.example.model.dto.List;
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.example.conexion.Connect;
+import org.example.interfaceDAO.iDAO;
+import org.example.model.dto.Album;
+import org.example.model.dto.Song;
+import org.example.model.dto.list;
+
+public class ListDAO extends list implements iDAO<list, Integer> {
+    private final static String FINDALL ="SELECT id, description, name_list, name_user FROM list";
+
+    private final static   String ListSub ="SELECT l.name_list FROM list l JOIN subscription s ON l.id = s.id_list WHERE s.name_user  = ?";
 
 
+    private final static String FINBYID ="SELECT s.* FROM song s JOIN song_list sl ON s.id = sl.id_song JOIN list l ON sl.id_list = l.id WHERE l.id = ?";
 
-public class ListDAO {
+    private final static String INSERT ="INSERT INTO list (id, description, name_list, name_user) VALUES (?,?,?,?)";
 
-public class ListDAO extends List implements iDAO<List, Integer> {
+    private final static String INSERTSonginList ="INSERT INTO song_list (id_list,id_song) VALUES (?,?)";
+    private final static String UPDATE ="UPDATE id = ?, , description = ?, , name_list= ?, name_user  = ? WHERE id=?";
+    private final static String DELETE ="DELETE FROM list WHERE id=?";
+    private final static String DELETESongofList ="DELETE FROM song_list  WHERE id_song=? and id_list=?";
 
-
-    private static Connection con;
-
-
-    public ListDAO(int id, String description, String name_list, String name_user, Connection con) {
-        super(id, description, name_list, name_user);
-        this.con = con;
+    private Connection conn;
+    public ListDAO(Connection conn) {
+        super();
+        this.conn = conn;
     }
-
     public ListDAO() {
-        this.con = Connect.getConnect() ;
+        super();
+        this.conn= Connect.getConnect();
     }
 
+    public List<String> findAllNameLists() throws SQLException {
+        List<String> nameLists = new ArrayList<>();
 
-
-    public static void conectar() {
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/spotifyproject", "root", "");
-        } catch (SQLException var1) {
-            var1.printStackTrace();
-        }
-
-    }
-
-    public static void close() {
-        try {
-            if (con != null) {
-                con.close();
+        try (PreparedStatement pst = conn.prepareStatement(FINDALL)) {
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    String nameList = rs.getString("name_list");
+                    int id = rs.getInt("id");
+                    nameLists.add(nameList);
+                }
             }
-        } catch (SQLException var1) {
-            var1.printStackTrace();
+        }
+        return nameLists;
+    }
+
+
+    @Override
+    public List<list> findAll() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public list findById(Integer id) throws SQLException {
+        return null;
+    }
+
+
+    @Override
+    public list save(list entity) throws SQLException {
+        if (entity != null) {
+            try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
+                pst.setInt(1, entity.getId());
+                pst.setString(2, entity.getDescription());
+                pst.setString(3, entity.getName_list());
+                pst.setString(4, entity.getName_user());
+                pst.executeUpdate();
+            }
+        }
+        return entity;
+    }
+
+    @Override
+    public void delete(list entity) throws SQLException {
+
+    }
+
+
+    public void delete(int id) throws SQLException {
+        try (PreparedStatement pst = conn.prepareStatement(DELETE)) {
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        }
+    }
+
+
+
+
+    public List<String> findAllNameListsByUser(String loggedInUserName) throws SQLException {
+        List<String> nameLists = new ArrayList<>();
+
+        String query = "SELECT name_list FROM list WHERE name_user = ?";
+
+        try (PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setString(1, loggedInUserName);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    String nameList = rs.getString("name_list");
+                    nameLists.add(nameList);
+                }
+            }
+        }
+        return nameLists;
+    }
+
+    public int findIdByName(String listName) throws SQLException {
+        int listId = -1; // Valor predeterminado si no se encuentra la lista
+
+        String query = "SELECT id FROM list WHERE name_list = ?";
+
+        try (PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setString(1, listName);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    listId = rs.getInt("id");
+
+                }
+            }
         }
 
+        return listId;
     }
-    public static void addList(List b) throws SQLException {
-        conectar();
-        PreparedStatement stat = null;
-        stat = con.prepareStatement("insert into list(id,name_user,name_list,description) values(null,?,?,?);");
-        stat.setString(2, b.getName_list());
-        stat.setString(1, String.valueOf(b.getName_user()));
-        stat.setString(3, b.getDescription());
-        stat.executeUpdate();
+    public list update(list entity) throws SQLException {
+        try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
+            pst.setInt(1, entity.getId());
+            pst.setString(2, entity.getDescription());
+            pst.setString(3, entity.getName_list());
+            pst.setString(4, entity.getName_user());
+            pst.executeUpdate();
+        }
+        return entity;
     }
-    public static ArrayList<List> getAllList() throws SQLException {
-        conectar();
-        ArrayList<List> obs = new ArrayList<>();
-        Statement stat = con.createStatement();
-        ResultSet rs = stat.executeQuery("SELECT name_list,name_user,description,id from LIST");
+    public List<String> findSubscribedLists(String userName) throws SQLException {
+        List<String> subscribedLists = new ArrayList<>();
 
-        while(rs.next()) {
-            new List();
-            String nameL = rs.getString("name_list");
-            String nameU = rs.getString("name_user");
-            String  Ldescripition = rs.getString("description");
-            int Lid = Integer.parseInt(rs.getString("id"));
-            List e = new List(Lid,nameL,Ldescripition,nameU);
-            obs.add(e);
+        try (PreparedStatement pst = conn.prepareStatement(ListSub)) {
+            pst.setString(1, userName);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    String nameList = rs.getString("name_list");
+                    subscribedLists.add(nameList);
+                }
+            }
         }
 
-        return obs;
+        return subscribedLists;
+    }
+    public void insertSongInList(int idList, int songId) throws SQLException {
+        // La conexión a la base de datos debería estar establecida antes de llamar a este método
+        try (PreparedStatement pst = this.conn.prepareStatement(INSERTSonginList)) {
+            pst.setInt(1, idList);
+            pst.setInt(2, songId);
+            pst.executeUpdate();
+        }
     }
 
-    public static void Modlist(List b) throws SQLException {
-        conectar();
-        PreparedStatement stat = null;
-        stat = con.prepareStatement("UPDATE LIST " +
-                "SET List.name_list = ?, \n" +
-                "    List.description = ?\n " +
-                "WHERE list.id = ?;");
-        stat.setString(1, b.getName_list());
-        stat.setString(2, b.getDescription());
-        stat.setInt(3, b.getId());
-        stat.executeUpdate();
+    public List<Song> findSongsByListId(int listId) throws SQLException {
+        List<Song> songs = new ArrayList<>();
+
+        try (PreparedStatement pst = this.conn.prepareStatement(FINBYID)) {
+            pst.setInt(1, listId);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Song song = new Song();
+                    song.setId(rs.getInt("id"));
+                    song.setName_song(rs.getString("name_song"));
+                    song.setGender(rs.getString("gender"));
+
+                    song.setDuration(rs.getString("duration"));
+                    // También necesitarás establecer el álbum al que pertenece esta canción aquí
+                    Album album = new Album();
+                    album.setName(rs.getString("name_disk"));
+                    song.setAlbum(album);
+                    songs.add(song);
+                }
+            }
+        }
+        return songs;
+    }
+    public void deleteSongOfList(int songId, int listId) throws SQLException {
+        try (PreparedStatement pst = conn.prepareStatement(DELETESongofList)) {
+            pst.setInt(1, songId);
+            pst.setInt(2, listId);
+
+            // Ejecutar la consulta de eliminación
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("La canción se eliminó correctamente de la lista.");
+            } else {
+                System.out.println("No se encontró la relación entre la canción y la lista.");
+                // Puedes manejar este caso según tus necesidades
+            }
+        }
     }
 
-    @Override
-    public java.util.List<List> findAll() throws SQLException {
-        return null;
-    }
 
-    @Override
-    public List findById(Integer id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List save(List entity) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public void delete(List entity) throws SQLException {
-
-    }
-
-    public static void deleteById(int id) throws SQLException {
-        conectar();
-        PreparedStatement stat = null;
-        stat = con.prepareStatement("DELETE FROM list WHERE list.id = ?");
-        stat.setInt(1, id);
-        stat.executeUpdate();
-    }
 
 }
