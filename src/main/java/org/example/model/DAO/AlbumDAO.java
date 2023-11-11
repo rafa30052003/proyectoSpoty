@@ -28,7 +28,11 @@ public class AlbumDAO implements iDAO <Album,String> {
 
     private final static  String FINDBYID = "SELECT name, photo,publication_date,n_reproduction,name_artist  from album WHERE name =?";
 
+    private final static String FIND_NAMES = "SELECT name FROM album";
+
+
     private final static String UPDATEALL="UPDATE album SET name=?,publication_date=?,name_artist=?  WHERE name=?";
+
 
     private Connection conn;
     public AlbumDAO(Connection conn) {
@@ -171,6 +175,25 @@ public class AlbumDAO implements iDAO <Album,String> {
         }
         return songs;
     }
+
+
+
+
+
+    public List<String> findNames () throws SQLException {
+        List<String> names = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FIND_NAMES)) {
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
+                    String name = res.getString("name");
+                    names.add(name);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return names;
+
     public void updateAlbum(String newName, Date newpublication_date, Artist newname_artist, String name) throws SQLException {
         if (newName != null && name != null && newpublication_date != null && newname_artist != null && !newName.isEmpty() && !name.isEmpty()) {
             try (PreparedStatement pst = this.conn.prepareStatement(UPDATEALL)) {
@@ -181,5 +204,6 @@ public class AlbumDAO implements iDAO <Album,String> {
                 pst.executeUpdate();
             }
         }
+
     }
 }

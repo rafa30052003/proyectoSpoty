@@ -22,8 +22,10 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
 
     private final static String FINBYID ="SELECT name_song, gender, N_reproduction, duration, name_disk,archive_song  from song WHERE id  =?";
     private final static String INSERT ="INSERT INTO song (id, name_song, gender,  N_reproduction, duration, name_disk,archive_song) VALUES (NULL,?,?,?,?,?,?)";
-    private final static String UPDATE ="UPDATE name_song = ?, gender = ?, N_reproduction = ?, duration = ?, name_disk,archive_song = ? WHERE id=?";
+    private final static String UPDATE ="UPDATE song SET name_song = ?, gender = ?, N_reproduction = ?, duration = ?, name_disk = ? WHERE id=?";
     private final static String DELETE ="DELETE FROM song WHERE id=?";
+
+
 
     /**
      * Conexion
@@ -64,7 +66,11 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
                     s.setArchive_song(res.getString("archive_song"));
                     String nameDisk = res.getString("name_disk");
                     AlbumDAO adao = new AlbumDAO(this.conn);
-                    Album a = (Album) adao.findByName(nameDisk); // Asumiendo que existe un método "findByName" en tu clase AlbumDAO.
+
+                    Album a = adao.findById(nameDisk); // Asumiendo que existe un método "findByName" en tu clase AlbumDAO.
+
+                  
+
                     s.setAlbum(a);
 
                     result.add(s);
@@ -125,10 +131,12 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
             } else {
                 // UPDATE
                 try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
-                    pst.setString(1, entity.getGender());
-                    pst.setInt(2, entity.getNrepro());
-                    pst.setString(3, entity.getDuration());
-                    pst.setString(4, entity.getAlbum().getName());
+                    pst.setString(1,entity.getName_song());
+                    pst.setString(2, entity.getGender());
+                    pst.setInt(3, entity.getNrepro());
+                    pst.setString(4, entity.getDuration());
+                    pst.setString(5, entity.getAlbum().getName());
+                    pst.setInt(6,entity.getId());
 
                     pst.executeUpdate();
                 }
@@ -146,6 +154,13 @@ public class SongDAO extends Song implements iDAO<Song, Integer> {
             pst.executeUpdate();
         }
     }
+
+
+
+
+
+
+
 
     public void updateReproductionCount(Song song) throws SQLException {
         if (song != null) {

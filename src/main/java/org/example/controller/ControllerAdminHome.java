@@ -158,20 +158,7 @@ public class ControllerAdminHome implements Initializable {
             ssp.setValue(artist.getValue().getName());
             return ssp;
         });
-        name.setCellFactory(TextFieldTableCell.forTableColumn());
-        name.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Artist, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Artist, String> t) {
-                Artist selected = (Artist) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                selected.setName(t.getNewValue());
-                try {
-                    adao.save(selected);
-                }catch (SQLException ex){
-                    ex.printStackTrace();
-                }
-
-            }
-        });
+       
         //nationality
         nationality.setCellValueFactory(new PropertyValueFactory<>("nationality"));
 
@@ -212,10 +199,10 @@ public class ControllerAdminHome implements Initializable {
             listaActualizable.remove(myartists.getSelectionModel().getSelectedItem());
         }
     }
-
     @FXML
     private void switchToAddArtist() throws IOException {
         App.setRoot("addArtist");
 
     }
+
 }
