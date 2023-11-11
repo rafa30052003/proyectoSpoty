@@ -1,7 +1,4 @@
 package org.example.controller;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -29,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class ControllerAlbum {
+
+    private ObservableList<Album> observableAlbumList;
 
     @FXML
     private TableColumn<Album, String> columArt;
@@ -64,31 +63,22 @@ public class ControllerAlbum {
         albumDAO = new AlbumDAO(conn);
     }
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         columNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         columFecha.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getPublic_time()).asString());
         columRepro.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNrepro()).asObject());
         columArt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName_artist().getName()));
-
         try {
             List<Album> albumList = albumDAO.findAll();
-            ObservableList<Album> observableAlbumList = FXCollections.observableArrayList(albumList);
+            observableAlbumList = FXCollections.observableArrayList(albumList);
             tableView.setItems(observableAlbumList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+           List<Album> albumList = albumDAO.findAll();
+            ObservableList<Album> observableAlbumList = FXCollections.observableArrayList(albumList);
+            tableView.setItems(observableAlbumList);
 
-        buscar.textProperty().addListener(new ChangeListener<String>(){
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // Llama al método filtrarAlbumesPorNombre con el nuevo valor del TextField
-                try {
-                    filtrarAlbumesPorNombre(newValue);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
         tableView.getSelectionModel().setCellSelectionEnabled(true);
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() > 1) {
@@ -96,7 +86,39 @@ public class ControllerAlbum {
             }
         });
 
+        // Configuración de la búsqueda en el método initialize
+        FilteredList<Album> filteredData = new FilteredList<>(tableView.getItems(), e -> true);
+        buscar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(album -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                // Ajusta estas líneas según la estructura de tu clase Album y tus criterios de búsqueda
+                if (album.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                if (album.getPublic_time().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                if (String.valueOf(album.getNrepro()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                if (album.getName_artist().getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                return false;
+            });
+        });
+
+        SortedList<Album> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedData);
     }
+
 
     @FXML
     void eliminarAlbum(ActionEvent event) {
@@ -111,13 +133,15 @@ public class ControllerAlbum {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 try {
                     albumDAO.delete(selectedAlbum);
-                    tableView.getItems().remove(selectedAlbum);
+                    observableAlbumList.remove(selectedAlbum);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+
+
 
     public void editarAlbum(ActionEvent event) throws SQLException {
         Album selectedAlbum = tableView.getSelectionModel().getSelectedItem();
@@ -181,50 +205,28 @@ public class ControllerAlbum {
     }
 
 
-    @FXML
-    void buscarNombre(ActionEvent event) {
-       String letra = buscar.getText();
-        List<Album> listaActualizable;
-        try {
-            listaActualizable = albumDAO.findAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        ObservableList<Album> observableAlbumList = FXCollections.observableArrayList(listaActualizable);
-
-        FilteredList<Album> filteredData = new FilteredList<>(observableAlbumList, p -> true);
-
-        buscar.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(album -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-
-                return false;
-            });
-        });
-        SortedList<Album> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
-        tableView.setItems(sortedData);
+   @FXML
+    void buscarNombre(ActionEvent event) throws SQLException {
+        String letra = buscar.getText();
+        filtrarAlbumesPorNombre(letra);
     }
-    private void filtrarAlbumesPorNombre(String letra) throws SQLException {
-        List<Album> albumesFiltrados = (List<Album>) albumDAO.findByName(letra);
-        if(albumesFiltrados != null) {
-            ObservableList<Album> listaObservableAlbumes = FXCollections.observableArrayList(albumesFiltrados);
-            tableView.setItems(listaObservableAlbumes);
-        } else {
-            tableView.setItems(FXCollections.emptyObservableList());
-        }
+        private void filtrarAlbumesPorNombre(String letra) throws SQLException {
+            // Cambiar esta línea para obtener una lista de álbumes
+            List<Album> albumesFiltrados = albumDAO.findByName(letra);
+
+            if (!albumesFiltrados.isEmpty()) {
+                // Si hay al menos un álbum encontrado, mostrarlos en la tabla
+                ObservableList<Album> listaObservableAlbumes = FXCollections.observableArrayList(albumesFiltrados);
+                tableView.setItems(listaObservableAlbumes);
+            } else {
+                // Si no se encuentra ningún álbum, limpiar la tabla
+                tableView.setItems(FXCollections.emptyObservableList());
+            }
     }
+
 
     @FXML
     void btninsertar(ActionEvent event) throws  IOException {
-        App.setRoot("addAlbum");
+            App.setRoot("addAlbum");
+        }
     }
-
-}

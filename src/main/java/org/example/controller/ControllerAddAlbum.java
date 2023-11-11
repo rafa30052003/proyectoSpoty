@@ -1,6 +1,7 @@
 package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.example.App;
 import org.example.model.DAO.AlbumDAO;
 import org.example.model.DAO.ArtistDAO;
 import org.example.model.dto.Album;
@@ -66,7 +68,7 @@ public class ControllerAddAlbum implements Initializable {
         LocalDate date = txtDate.getValue();
         String artist = txtArtista.getValue();
 
-        if (name.isEmpty() || date==null || artist.isEmpty() || imageView==null) {
+        if (name.isEmpty() || date == null || (artist != null && artist.isEmpty()) || imageView == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Campos Incompletos");
             alert.setHeaderText("Por favor complete todos los campos.");
@@ -102,18 +104,6 @@ public class ControllerAddAlbum implements Initializable {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("album.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) txtName.getScene().getWindow();
-
-            // Establece la nueva escena
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -136,7 +126,11 @@ public class ControllerAddAlbum implements Initializable {
         }
         return selectedImageFile;
     }
+    @FXML
+    void volver(ActionEvent event) throws IOException {
+        App.setRoot("homeAdmin");
+    }
+    }
 
-}
 
 
