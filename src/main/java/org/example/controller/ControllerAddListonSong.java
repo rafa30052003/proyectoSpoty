@@ -71,9 +71,9 @@ public class ControllerAddListonSong implements Initializable {
             // Llama a la función para agregar una suscripción
             try {
                 listDAO.insertSongInList(selectedListId, id_song);
-                showInformation("Suscripción Agregada", "Has sido suscrito a la lista seleccionada.");
+                showInformation("cancion Agregada", "la cancion a sido agregada");
             } catch (SQLException e) {
-                showValidationError("No se pudo agregar la suscripción. Por favor, inténtelo de nuevo más tarde.");
+                showValidationError("No se pudo agregar la cancion ");
             }
         } else {
             showValidationError("Por favor, seleccione una lista para suscribirse.");
