@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlbumDAO implements iDAO <Album,String> {
@@ -26,7 +27,13 @@ public class AlbumDAO implements iDAO <Album,String> {
     private final static String FINDALL="SELECT name,photo,publication_date,n_reproduction,name_artist FROM album";
 
     private final static  String FINDBYID = "SELECT name, photo,publication_date,n_reproduction,name_artist  from album WHERE name =?";
+
     private final static String FIND_NAMES = "SELECT name FROM album";
+
+
+    private final static String UPDATEALL="UPDATE album SET name=?,publication_date=?,name_artist=?  WHERE name=?";
+
+
     private Connection conn;
     public AlbumDAO(Connection conn) {
         this.conn = conn;
@@ -172,6 +179,7 @@ public class AlbumDAO implements iDAO <Album,String> {
 
 
 
+
     public List<String> findNames () throws SQLException {
         List<String> names = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement(FIND_NAMES)) {
@@ -185,5 +193,17 @@ public class AlbumDAO implements iDAO <Album,String> {
             e.printStackTrace();
         }
         return names;
+
+    public void updateAlbum(String newName, Date newpublication_date, Artist newname_artist, String name) throws SQLException {
+        if (newName != null && name != null && newpublication_date != null && newname_artist != null && !newName.isEmpty() && !name.isEmpty()) {
+            try (PreparedStatement pst = this.conn.prepareStatement(UPDATEALL)) {
+                pst.setString(1, newName);
+                pst.setDate(2, new java.sql.Date(newpublication_date.getTime()));
+                pst.setString(3, newname_artist.getName());
+                pst.setString(4, name);
+                pst.executeUpdate();
+            }
+        }
+
     }
 }
