@@ -4,6 +4,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -179,16 +181,36 @@ public class ControllerAlbum {
     }
 
 
-
-
     @FXML
     void buscarNombre(ActionEvent event) {
-        String letra = buscar.getText();
+       String letra = buscar.getText();
+        List<Album> listaActualizable;
         try {
-            filtrarAlbumesPorNombre(letra);
+            listaActualizable = albumDAO.findAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            return;
         }
+
+        ObservableList<Album> observableAlbumList = FXCollections.observableArrayList(listaActualizable);
+
+        FilteredList<Album> filteredData = new FilteredList<>(observableAlbumList, p -> true);
+
+        buscar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(album -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+
+                return false;
+            });
+        });
+        SortedList<Album> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedData);
     }
     private void filtrarAlbumesPorNombre(String letra) throws SQLException {
         List<Album> albumesFiltrados = (List<Album>) albumDAO.findByName(letra);
