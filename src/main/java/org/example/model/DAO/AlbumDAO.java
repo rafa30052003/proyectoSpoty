@@ -178,8 +178,6 @@ public class AlbumDAO implements iDAO <Album,String> {
 
 
 
-
-
     public List<String> findNames () throws SQLException {
         List<String> names = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement(FIND_NAMES)) {
@@ -194,6 +192,7 @@ public class AlbumDAO implements iDAO <Album,String> {
         }
         return names;
     }
+
     public void updateAlbum(String newName, Date newpublication_date, Artist newname_artist, String name) throws SQLException {
         if (newName != null && name != null && newpublication_date != null && newname_artist != null && !newName.isEmpty() && !name.isEmpty()) {
             try (PreparedStatement pst = this.conn.prepareStatement(UPDATEALL)) {
@@ -204,6 +203,5 @@ public class AlbumDAO implements iDAO <Album,String> {
                 pst.executeUpdate();
             }
         }
-
     }
 }
