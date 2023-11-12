@@ -199,12 +199,12 @@
                         <TableColumn fx:id="columnnComment" prefWidth="760.0000151634216" style="-fx-background-color: #020a1f; -fx-text-fill: white;" text="comentario" />
                     </columns>
                 </TableView>
-                <Button fx:id="buttonAlbunSong" layoutX="95.0" layoutY="406.0" mnemonicParsing="false" onAction="#showAlbumSongs" prefHeight="50.0" prefWidth="217.0" style="-fx-background-color: #020113;" text="ver canciones de el albun" textFill="WHITE">
+                <Button fx:id="buttonAlbunSong" layoutX="95.0" layoutY="406.0" mnemonicParsing="false" onAction="#showAlbumSongs" prefHeight="50.0" prefWidth="217.0" style="-fx-background-color: #020113;" text="ver canciones de el albums" textFill="WHITE">
                     <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="buttonAlbun" layoutX="558.0" layoutY="406.0" mnemonicParsing="false" onAction="#activeTablaAlbun" prefHeight="50.0" prefWidth="124.0" style="-fx-background-color: #020113;" text="ver albuns" textFill="WHITE">
+                <Button fx:id="buttonAlbun" layoutX="558.0" layoutY="406.0" mnemonicParsing="false" onAction="#activeTablaAlbun" prefHeight="50.0" prefWidth="124.0" style="-fx-background-color: #020113;" text="ver albums" textFill="WHITE">
                     <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                     </font>

@@ -163,7 +163,7 @@ public class AlbumDAO implements iDAO <Album,String> {
                     song.setId(rs.getInt("id"));
                     song.setName_song(rs.getString("name_song"));
                     song.setGender(rs.getString("gender"));
-
+                    song.setArchive_song(rs.getString("archive_song"));
                     song.setDuration(rs.getString("duration"));
                     // También necesitarás establecer el álbum al que pertenece esta canción aquí
                     Album album = new Album();
