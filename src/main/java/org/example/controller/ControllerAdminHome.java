@@ -61,7 +61,11 @@ public class ControllerAdminHome implements Initializable {
         loadPage("song");
     }
 
+    @FXML
+    private void switchLogin() throws IOException {
+        App.setRoot("login");
 
+    }
 
     private void loadPage (String page) {
 

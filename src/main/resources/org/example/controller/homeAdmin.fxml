@@ -31,7 +31,7 @@
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113;" text="SALIR" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#switchLogin" prefHeight="166.0" prefWidth="296.0" style="-fx-background-color: #020113;" text="SALIR" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
