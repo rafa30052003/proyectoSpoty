@@ -223,6 +223,11 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * esta funcion es para crear comentarios  en las listas
+     * @throws IOException
+     */
+
     @FXML
     private void buttonAddComment() throws IOException {
         try {
@@ -246,6 +251,10 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @FXML
     private void buttonDeleteComment() throws IOException {
         int id_comment = 1;
@@ -500,7 +509,12 @@ public class ControllerUserHome {
         columnnSong_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         columnnSong_N_repro.setCellValueFactory(new PropertyValueFactory<>("nrepro"));
         columnnSong_Duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
-        columnnSong_Name_Disk_Song.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAlbum().getName()));
+        columnnSong_Name_Disk_Song.setCellValueFactory(cellData -> {
+            Album album = cellData.getValue().getAlbum();
+            String albumName = (album != null) ? album.getName() : "";
+            return new SimpleStringProperty(albumName);
+        });
+
         /////
 
         // Configura las celdas de las columnas para la tabla de álbumes
@@ -784,6 +798,9 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * funcion para borras las listas de la base de datos
+     */
     @FXML
     private void handleDeleteList() {
         // Verifica que se haya seleccionado una lista antes de intentar borrar
@@ -799,6 +816,9 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * funcion para mostrar todas las listas en las que estoy subscrito
+     */
     @FXML
     private void buttonShowMyListSub() {
         try {
@@ -817,6 +837,11 @@ public class ControllerUserHome {
             // Manejar errores de base de datos
         }
     }
+
+    /**
+     * esta funcion es para mostrar todos los commentarios de la lista seleccionado
+     * @param event
+     */
 
     @FXML
     private void showCommentsForList(ActionEvent event) {
@@ -852,6 +877,9 @@ public class ControllerUserHome {
         }
     }
 
+    /**
+     * esta funcion es para añadir canciones a las listas
+     */
     @FXML
     private void addSongonList() {
         try {
@@ -874,6 +902,11 @@ public class ControllerUserHome {
             e.printStackTrace();
         }
     }
+
+    /**
+     * esta funcion es para  ver todas las canciones de la lista
+     * @param event
+     */
     @FXML
     private void listSongofList(ActionEvent event) {
         tableSong.setVisible(true);
@@ -900,6 +933,11 @@ public class ControllerUserHome {
 
         }
     }
+
+    /**
+     * esta funcion es para borrar la cancion de las listas
+     * @param event
+     */
     @FXML
     private void deleteSelectedSong(ActionEvent event) {
         // Obtén la canción seleccionada desde la tabla
@@ -924,8 +962,6 @@ public class ControllerUserHome {
         }
     }
 }
-
-
 
 
 
