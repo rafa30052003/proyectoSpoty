@@ -21,7 +21,7 @@ public class ListDAO extends list implements iDAO<list, Integer> {
 
     private final static String FINBYID ="SELECT s.* FROM song s JOIN song_list sl ON s.id = sl.id_song JOIN list l ON sl.id_list = l.id WHERE l.id = ?";
 
-    private final static String INSERT ="INSERT INTO list (id, description, name_list, name_user) VALUES (?,?,?,?)";
+    private final static String INSERT ="INSERT INTO list (id, name_list, description, name_user) VALUES (?,?,?,?)";
 
     private final static String INSERTSonginList ="INSERT INTO song_list (id_list,id_song) VALUES (?,?)";
     private final static String UPDATE ="UPDATE id = ?, , description = ?, , name_list= ?, name_user  = ? WHERE id=?";
