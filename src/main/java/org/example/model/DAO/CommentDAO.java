@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDAO implements iDAO<Comment,Object> {
@@ -33,14 +34,6 @@ public class CommentDAO implements iDAO<Comment,Object> {
         this.conn= Connect.getConnect();
     }
 
-
-
-    public Comment findAll(Comment entity) throws SQLException {
-        return null;
-    }
-
-
-
     @Override
     public List<Comment> findAll() throws SQLException {
         return null;
@@ -51,7 +44,7 @@ public class CommentDAO implements iDAO<Comment,Object> {
         return null;
     }
 
-
+//funcion para guardar los comment en la base de datos
     public  Comment save(Comment entity) throws SQLException {
         if (entity != null) {
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
@@ -71,25 +64,26 @@ public class CommentDAO implements iDAO<Comment,Object> {
     public void delete(Comment entity) throws SQLException {
 
     }
-    public Comment findCommentById(int listId) throws SQLException {
-        Comment comment = null;
+    //funcion para mostrar los comment de las listas
+    public List<Comment> findCommentsByListId(int listId) throws SQLException {
+        List<Comment> comments = new ArrayList<>();
 
         try (PreparedStatement pst = conn.prepareStatement(FINDBYNAME)) {
             pst.setInt(1, listId);
 
             try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    // Selecciona las columnas correctas según tu consulta SQL
-
+                while (rs.next()) {
+                    // Asegúrate de seleccionar las columnas correctas en la consulta SQL
                     String commentText = rs.getString("comment");
 
-                    // Crea un nuevo objeto Comment con los datos recuperados
-                    comment = new Comment( commentText);
+                    // Ajusta la creación del objeto Comment según los campos reales en tu clase Comment
+                    Comment comment = new Comment(commentText);
+                    comments.add(comment);
                 }
             }
         }
 
-        return comment;
+        return comments;
     }
 
 }

@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserDAO implements iDAO<User,String> {
-    private final static String FINDALL = "SELECT * from user";
     private final static String FINDBYNAME_USER = "SELECT name,mail,photo,password from user WHERE name=?";
     private final static String FINDBYNAME_ADMIN= "SELECT name from admin WHERE name=?";
     private final static String FINDBYNAME_pass_USER = "SELECT name,password from user WHERE name=? AND password=?";
@@ -40,7 +39,12 @@ public class UserDAO implements iDAO<User,String> {
         return null;
     }
 
-  
+    /**
+     * Funcion para guardar el usuario en la base de datos
+     * @param entity
+     * @return devuelve el usuario para saber si se creado
+     * @throws SQLException
+     */
 
     @Override
     public User save(User entity) throws SQLException {
@@ -71,9 +75,12 @@ public class UserDAO implements iDAO<User,String> {
     }
 
 
-    public Artist save(Artist entity) throws SQLException {
-        return null;
-    }
+    /**
+     * Funcion para modificar usuarios en la base de datos
+     * @param entity
+     * @return devuelve el suario modificado
+     * @throws SQLException
+     */
 
 
     public User update(User entity) throws SQLException {
@@ -89,13 +96,22 @@ public class UserDAO implements iDAO<User,String> {
         }
         return entity;
     }
-
+//funcion  para el nombre de el usuario
     public User findByNameUser(String name) throws SQLException {
         return findByNameAndPass(name,  FINDBYNAME_USER, FINDBYNAME_pass_USER);
     }
     public User findByNameAndPassUser(String name, String password) throws SQLException {
         return findByNameAndPass(name, password, FINDBYNAME_pass_USER);
     }
+
+    /**
+     * funcion para buscar el nombre de el usuario y la contraseña
+     * @param name
+     * @param query
+     * @param FINDBYNAME_pass_USER
+     * @return
+     * @throws SQLException
+     */
     private User findByNameAndPass(String name, String query, String FINDBYNAME_pass_USER) throws SQLException {
         try (PreparedStatement pst = this.conn.prepareStatement(query)) {
             pst.setString(1, name);
@@ -106,6 +122,14 @@ public class UserDAO implements iDAO<User,String> {
         }
         return null;
     }
+
+    /**
+     * busca el nombre de el usuario
+     * @param name
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     private User findByName(String name, String query) throws SQLException {
         try (PreparedStatement pst = this.conn.prepareStatement(query)) {
             pst.setString(1, name);
@@ -126,7 +150,11 @@ public class UserDAO implements iDAO<User,String> {
         return user;
     }
 
-
+    /**
+     * funcion para borra el usuario
+     * @param entity
+     * @throws SQLException
+     */
     @Override
     public void delete(User entity) throws SQLException {
         if (entity != null) {
@@ -139,7 +167,12 @@ public class UserDAO implements iDAO<User,String> {
     }
 
 
-
+    /**
+     * funcion para hacer la subcrippcion de el usuario
+     * @param idList
+     * @param userName
+     * @throws SQLException
+     */
 
     public void addSubscription(int idList, String userName) throws SQLException {
         try (PreparedStatement pst = this.conn.prepareStatement(addsub)) {
@@ -148,6 +181,13 @@ public class UserDAO implements iDAO<User,String> {
             pst.executeUpdate();
         }
     }
+
+    /**
+     * funcion para borrar la subcripcion para la lista
+     * @param nameUser
+     * @param idList
+     * @throws SQLException
+     */
     public void deleteSubscription(String nameUser, int idList) throws SQLException {
 
         try (PreparedStatement pst = this.conn.prepareStatement(deletesub)) {
@@ -156,6 +196,13 @@ public class UserDAO implements iDAO<User,String> {
             pst.executeUpdate();
         }
     }
+
+    /**
+     * funcion para validar si el usuario es admin o no
+     * @param name
+     * @return true si el usuario es admin si no lo es devuelve un false
+     * @throws SQLException
+     */
     public boolean isAdmin(String name) throws SQLException {
         // Consulta para buscar un usuario en la tabla admin
 

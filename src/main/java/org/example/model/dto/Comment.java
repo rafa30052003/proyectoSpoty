@@ -14,7 +14,7 @@ public class Comment {
     }
 
     public Comment(String commentText) {
-        this.comment = comment;
+        this.comment = commentText;
     }
 
     public int getId() {

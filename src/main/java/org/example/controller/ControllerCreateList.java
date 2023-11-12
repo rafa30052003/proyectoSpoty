@@ -22,12 +22,12 @@ public class ControllerCreateList {
     private Button addList;
 
     private static ControllerLogin HomeLogin;
-    // Puedes obtener el valor de loggedInUserName desde tu aplicación
+
     private static String loggedInUserName = HomeLogin.getLoggedInUserName();
 
-    // Otros métodos y atributos...
-
-    // Agregar esta función para agregar una lista a la base de datos
+    /**
+     * funcion para crear una listas en la base de datos 
+     */
     @FXML
     public void addList() {
         try {
