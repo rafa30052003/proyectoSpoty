@@ -21,6 +21,13 @@ import org.example.App;
 import org.example.model.DAO.*;
 import org.example.model.dto.*;
 import org.mindrot.jbcrypt.BCrypt;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,9 +76,13 @@ public class ControllerUserHome {
     private TableColumn<Album, String> columnn_Albun_NameArtistAlbun;
 
     //////////////////////////////// las listas
+    @FXML
+    private Slider barra;
 
     @FXML
     private Button buttonSong;
+    @FXML
+    private Button stopButton;
     @FXML
     private Button buttonSongofList;
     @FXML
@@ -154,6 +165,7 @@ public class ControllerUserHome {
     private Label generoLabel;
     private final SimpleStringProperty selectedSongName = new SimpleStringProperty("");
     private final SimpleStringProperty selectedSongDuration = new SimpleStringProperty("");
+    private final SimpleStringProperty selectedSong_archive = new SimpleStringProperty("");
     private final SimpleStringProperty selectedSongGender = new SimpleStringProperty("");
 
 
@@ -522,6 +534,7 @@ public class ControllerUserHome {
         columnn_Publication_dateAlbun.setCellValueFactory(new PropertyValueFactory<>("public_time"));
         columnn_N_reproduction.setCellValueFactory(new PropertyValueFactory<>("nrepro"));
         columnn_Albun_NameArtistAlbun.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName_artist().getName()));
+        stopButton.setOnAction(event -> stopMp3());
 
 
         // Obtén los datos de álbumes desde la base de datos
@@ -566,10 +579,17 @@ public class ControllerUserHome {
     /**
      * este boton sumara 1 cada vez que le de a reprocucir le numero
      */
+
+
+    private AdvancedPlayer player;
+
+    private Thread playerThread;
+    private boolean isPlaying = false;
+
     @FXML
     private void buttonReproduction() {
         if (tableAlbun.isVisible()) {
-            // Si la tabla de álbumes está activa
+            // Resto del código para álbumes
             Album selectedAlbum = tableAlbun.getSelectionModel().getSelectedItem();
             if (selectedAlbum != null) {
                 // Incrementa el contador de reproducciones del álbum en 1
@@ -588,7 +608,6 @@ public class ControllerUserHome {
                 }
             }
         } else if (tableSong.isVisible()) {
-            // Si la tabla de canciones está activa
             Song selectedSong = tableSong.getSelectionModel().getSelectedItem();
             if (selectedSong != null) {
                 // Incrementa el contador de reproducciones de la canción en 1
@@ -605,9 +624,49 @@ public class ControllerUserHome {
                     e.printStackTrace();
                     // Manejar errores de actualización en la base de datos
                 }
+
+                // Reproduce la canción desde la URL del archivo MP3
+                playMp3(selectedSong.getArchive_song());
             }
         }
     }
+
+    private void playMp3(String mp3Url) {
+        stopMp3(); // Detener la reproducción actual si la hay
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(mp3Url);
+            player = new AdvancedPlayer(fileInputStream);
+
+            player.setPlayBackListener(new PlaybackListener() {
+                @Override
+                public void playbackFinished(PlaybackEvent evt) {
+                    // Reproducción finalizada
+                    stopMp3();
+                }
+            });
+
+            // Iniciar la reproducción en un nuevo hilo para no bloquear la interfaz de usuario
+            new Thread(() -> {
+                try {
+                    player.play();
+                } catch (JavaLayerException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        } catch (IOException | JavaLayerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopMp3() {
+        if (player != null) {
+            player.close();
+            player = null;
+        }
+    }
+
 
     /**
      * funcion para ver las canciones de el albun
@@ -653,6 +712,7 @@ public class ControllerUserHome {
             selectedSongName.set(selectedSong.getName_song());
             selectedSongDuration.set(selectedSong.getDuration());
             selectedSongGender.set(selectedSong.getGender());
+            selectedSong_archive.set(selectedSong.getArchive_song());
 
             // Actualiza las etiquetas (labels) en la interfaz gráfica
 
@@ -849,14 +909,11 @@ public class ControllerUserHome {
         try {
             int id = selectedListId;
 
-            // Obtén un comentario de la tabla comment
-            Comment comment = commentDAO.findCommentById(selectedListId);
+            // Obtén todos los comentarios de la tabla comment para la lista seleccionada
+            List<Comment> comments = commentDAO.findCommentsByListId(selectedListId);
 
-            // Verifica si el comentario no es nulo antes de procesarlo
-            if (comment != null) {
-                // Crea una lista con el único comentario
-                List<Comment> comments = Collections.singletonList(comment);
-
+            // Verifica si la lista de comentarios no es nula ni está vacía antes de procesarla
+            if (comments != null && !comments.isEmpty()) {
                 // Convertir la lista en un ObservableList para mostrarla en la tabla
                 ObservableList<Comment> commentsObservable = FXCollections.observableArrayList(comments);
 
@@ -865,10 +922,9 @@ public class ControllerUserHome {
 
                 // Configurar las celdas de la columna para mostrar el texto del comentario
                 columnnComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
-
             } else {
-                // El comentario es nulo, puedes mostrar un mensaje o manejarlo según tu lógica
-                System.out.println("El comentario es nulo");
+                // La lista de comentarios es nula o está vacía, puedes mostrar un mensaje o manejarlo según tu lógica
+                System.out.println("La lista de comentarios es nula o está vacía");
             }
 
         } catch (SQLException e) {
@@ -876,6 +932,7 @@ public class ControllerUserHome {
             // Manejar errores de la base de datos
         }
     }
+
 
     /**
      * esta funcion es para añadir canciones a las listas
@@ -962,6 +1019,3 @@ public class ControllerUserHome {
         }
     }
 }
-
-
-

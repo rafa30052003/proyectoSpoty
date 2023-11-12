@@ -32,6 +32,17 @@ public class ControllerAddComment implements Initializable {
 
     private ListDAO listDAO;
 
+    /**
+     * esta funcin es para poder iniciar la tabla de list en los datos
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Inicializa el ListDAO
@@ -62,6 +73,10 @@ public class ControllerAddComment implements Initializable {
         }
     }
 
+    /**
+     * esta funcion agregara el comment a la lista que seleccionemos
+     * @param event
+     */
     @FXML
     public void addComment(ActionEvent event) {
         try {
@@ -90,6 +105,7 @@ public class ControllerAddComment implements Initializable {
             e.printStackTrace();
         }
     }
+    //mensages de error
 
     private void showValidationError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

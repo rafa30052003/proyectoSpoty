@@ -29,6 +29,16 @@ public class ControllerAddListonSong implements Initializable {
 
     private ListDAO listDAO;
 
+    /**
+     * funcion para mostrar las listas al iniciar el fxml
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Inicializa el ListDAO
@@ -63,6 +73,10 @@ public class ControllerAddListonSong implements Initializable {
         }
     }
 
+    /**
+     * funcion para añadir una cancion a la lista selecionada
+     * @param event
+     */
     @FXML
     public void addSongofList(ActionEvent event) {
         // Obtén el nombre de usuario logueado desde ControllerLogin

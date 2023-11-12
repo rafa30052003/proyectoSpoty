@@ -35,11 +35,19 @@ public class ControllerAddUser {
 
     private String photoPath = ""; // Ruta de la imagen seleccionada
 
+    /**
+     * funcion para  salir de el fxml
+     * @throws IOException
+     */
     @FXML
     private void exit() throws IOException {
         App.setRoot("login");
     }
 
+    /**
+     * Funcion poara crear tu usuario en la base de datos
+     * @param event
+     */
     @FXML
     private void addUser(ActionEvent event) {
         if (areFieldsFilled()) {
@@ -112,6 +120,10 @@ public class ControllerAddUser {
         }
     }
 
+    /**
+     * Funcion para subir una imagen a la Base de datos
+     * @param event
+     */
     @FXML
     private void chooseImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -124,6 +136,10 @@ public class ControllerAddUser {
         }
     }
 
+    /**
+     * Funcion que revisa que los campos estan completos
+     * @return devuelve un true si esta completo
+     */
     private boolean areFieldsFilled() {
         return !textName.getText().isEmpty() &&
                 !textmail.getText().isEmpty() &&

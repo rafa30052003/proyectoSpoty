@@ -38,6 +38,11 @@ public class ListDAO extends list implements iDAO<list, Integer> {
         this.conn= Connect.getConnect();
     }
 
+    /**
+     * funcion para mostrar las listas de la base de datos
+     * @return
+     * @throws SQLException
+     */
     public List<String> findAllNameLists() throws SQLException {
         List<String> nameLists = new ArrayList<>();
 
@@ -64,7 +69,12 @@ public class ListDAO extends list implements iDAO<list, Integer> {
         return null;
     }
 
-
+    /**
+     * funcion para guardar la list en la base de datos
+     * @param entity
+     * @return
+     * @throws SQLException
+     */
     @Override
     public list save(list entity) throws SQLException {
         if (entity != null) {
@@ -84,7 +94,11 @@ public class ListDAO extends list implements iDAO<list, Integer> {
 
     }
 
-
+    /**
+     * funcion para borrar las listas
+     * @param id
+     * @throws SQLException
+     */
     public void delete(int id) throws SQLException {
         try (PreparedStatement pst = conn.prepareStatement(DELETE)) {
             pst.setInt(1, id);
@@ -93,8 +107,12 @@ public class ListDAO extends list implements iDAO<list, Integer> {
     }
 
 
-
-
+    /**
+     * funcion mara mostrar solo las listas de el usuario
+     * @param loggedInUserName
+     * @return
+     * @throws SQLException
+     */
     public List<String> findAllNameListsByUser(String loggedInUserName) throws SQLException {
         List<String> nameLists = new ArrayList<>();
 
@@ -112,6 +130,7 @@ public class ListDAO extends list implements iDAO<list, Integer> {
         }
         return nameLists;
     }
+
 
     public int findIdByName(String listName) throws SQLException {
         int listId = -1; // Valor predeterminado si no se encuentra la lista
@@ -131,6 +150,13 @@ public class ListDAO extends list implements iDAO<list, Integer> {
 
         return listId;
     }
+
+    /**
+     * funcion para modificar las listas
+     * @param entity
+     * @return
+     * @throws SQLException
+     */
     public list update(list entity) throws SQLException {
         try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
             pst.setInt(1, entity.getId());
@@ -141,6 +167,13 @@ public class ListDAO extends list implements iDAO<list, Integer> {
         }
         return entity;
     }
+
+    /**
+     * funcion para mostrar las listas a las que el usuario esta subcrito
+     * @param userName
+     * @return
+     * @throws SQLException
+     */
     public List<String> findSubscribedLists(String userName) throws SQLException {
         List<String> subscribedLists = new ArrayList<>();
 
@@ -157,6 +190,13 @@ public class ListDAO extends list implements iDAO<list, Integer> {
 
         return subscribedLists;
     }
+
+    /**
+     * fUNCION PARA GUARDAR LA CANCION EN LAS LISTA QUE SELECCIONAMOS
+     * @param idList
+     * @param songId
+     * @throws SQLException
+     */
     public void insertSongInList(int idList, int songId) throws SQLException {
         // La conexión a la base de datos debería estar establecida antes de llamar a este método
         try (PreparedStatement pst = this.conn.prepareStatement(INSERTSonginList)) {
@@ -165,6 +205,13 @@ public class ListDAO extends list implements iDAO<list, Integer> {
             pst.executeUpdate();
         }
     }
+
+    /**
+     * FUNCION PARA MOSTRAS LAS CANCIONES DE LA LISTA SELECIONADO
+     * @param listId
+     * @return
+     * @throws SQLException
+     */
 
     public List<Song> findSongsByListId(int listId) throws SQLException {
         List<Song> songs = new ArrayList<>();
@@ -177,6 +224,7 @@ public class ListDAO extends list implements iDAO<list, Integer> {
                     song.setId(rs.getInt("id"));
                     song.setName_song(rs.getString("name_song"));
                     song.setGender(rs.getString("gender"));
+                    song.setArchive_song(rs.getString("archive_song"));
 
                     song.setDuration(rs.getString("duration"));
                     // También necesitarás establecer el álbum al que pertenece esta canción aquí
@@ -189,6 +237,13 @@ public class ListDAO extends list implements iDAO<list, Integer> {
         }
         return songs;
     }
+
+    /**
+     * Funcion para borrar la cancion de la lista
+     * @param songId
+     * @param listId
+     * @throws SQLException
+     */
     public void deleteSongOfList(int songId, int listId) throws SQLException {
         try (PreparedStatement pst = conn.prepareStatement(DELETESongofList)) {
             pst.setInt(1, songId);

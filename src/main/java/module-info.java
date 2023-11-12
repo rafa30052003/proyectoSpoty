@@ -5,6 +5,7 @@ module org.example {
     requires java.xml.bind;
     requires jbcrypt;
     requires java.xml;
+    requires jlayer;
 
     opens org.example to javafx.fxml;
     opens org.example.conexion to java.xml.bind; // Corregido el nombre de la carpeta
